@@ -1,0 +1,2873 @@
+<!-- 아메 스탯창 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 스탯창</title>
+    <link rel="stylesheet" href="https://use.typekit.net/wpt3hjn.css">
+    <style>
+        .char-stat-widget * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .char-stat-widget {
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif !important;
+            color: #fff !important;
+            height: 100vh !important;
+            position: relative !important;
+            background: transparent !important;
+            overflow: hidden !important;
+        }
+
+        .char-stat-widget .container {
+            position: relative !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 20px !important;
+        }
+
+        /* 캐릭터 정보 패널 */
+        .char-stat-widget .character-info {
+            position: absolute !important;
+            top: clamp(20px, 5vh, 50px) !important;
+            left: clamp(10px, 3vw, 30px) !important;
+            z-index: 5 !important;
+            user-select: none !important;
+        }
+
+        .char-stat-widget .character-name {
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(36px, 7vw, 56px) !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0px !important;
+            overflow: hidden !important;
+            letter-spacing: -0.05em !important;
+        }
+
+        .char-stat-widget .name-first-letter {
+            color: #8a1def !important;
+            display: inline-block !important;
+            opacity: 0 !important;
+            transform: scale(0.8) !important;
+            transition: all 0.6s ease-out !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+
+        .char-stat-widget .name-first-letter.animate {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
+        .char-stat-widget .name-rest {
+            color: var(--color-text-primary, #000) !important;
+            display: inline-block !important;
+            opacity: 0 !important;
+            transform: translateX(-15px) !important;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            transition-delay: 0.3s !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+
+        .char-stat-widget .name-rest.animate {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+
+        .char-stat-widget .character-title {
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(18px, 3.5vw, 26px) !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+            color: #888 !important;
+            margin-top: -20px !important;
+            opacity: 0 !important;
+            transform: translateY(-10px) !important;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            transition-delay: 0.6s !important;
+            position: relative !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+
+        .char-stat-widget .character-title.animate {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* 애니메이션 키프레임 */
+        @keyframes letterFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes nameSlideRight {
+            0% {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes titleSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes underlineExpand {
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+            100% {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+
+        .char-stat-widget .character-container {
+            position: relative !important;
+            width: min(90vw, 60vh, 800px) !important;
+            height: min(120vw, 80vh, 1040px) !important;
+            max-width: 800px !important;
+            max-height: 1040px !important;
+            min-width: 280px !important;
+            min-height: 360px !important;
+            z-index: 10 !important;
+        }
+
+        /* 공통 배경 이미지 스타일 */
+        .char-stat-widget .bg-image {
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+        }
+
+        .char-stat-widget .character {
+            width: 100% !important;
+            height: 100% !important;
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Ame.png') !important;
+            position: relative !important;
+            cursor: pointer !important;
+            z-index: 10 !important;
+            transition: filter 0.3s ease !important;
+        }
+
+        .char-stat-widget .character:hover {
+            filter: drop-shadow(0 0 10px rgba(128, 128, 128, 0.4)) !important;
+        }
+
+        .char-stat-widget .character-silhouette {
+            width: 100% !important;
+            height: 100% !important;
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Ame2.png') !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 1 !important;
+            transform: translateX(0) !important;
+            opacity: 0 !important;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            pointer-events: none !important;
+        }
+
+        .char-stat-widget .character-silhouette.show {
+            transform: translateX(6%) !important;
+            opacity: 0.7 !important;
+        }
+
+        /* 아이콘 패널 */
+        .char-stat-widget .icon-panel {
+            position: absolute !important;
+            top: clamp(20px, 5vh, 50px) !important;
+            right: clamp(5px, 2vw, 15px) !important;  /* 오른쪽 가장자리에 더 가깝게 */
+            display: flex !important;
+            flex-direction: column !important;
+            gap: clamp(8px, 1.5vh, 15px) !important;
+            z-index: 30 !important;
+        }
+
+        .char-stat-widget .icon-item {
+            position: relative !important;
+            width: clamp(25px, 4vw, 35px) !important;  /* 30px-45px에서 25px-35px로 축소 */
+            height: clamp(25px, 4vw, 35px) !important;
+            cursor: pointer !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid transparent !important;
+            opacity: 0.8 !important;
+        }
+
+        .char-stat-widget .icon-item:hover {
+            opacity: 1 !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .char-stat-widget .icon-item.active {
+            opacity: 1 !important;
+            border-color: rgba(234, 118, 203, 0.8) !important;
+            box-shadow: 0 0 15px rgba(234, 118, 203, 0.5) !important;
+        }
+
+        /* 개별 아이콘 배경 이미지 */
+        .char-stat-widget .icon-purity {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Purity.png') !important;
+        }
+
+        .char-stat-widget .icon-beauty {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Beauty.png') !important;
+        }
+
+        .char-stat-widget .icon-physique {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Physique.png') !important;
+        }
+
+        .char-stat-widget .icon-willpower {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Willpower.png') !important;
+        }
+
+        .char-stat-widget .icon-awareness {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Awareness.png') !important;
+        }
+
+        .char-stat-widget .icon-promiscuity {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Promiscuity.png') !important;
+        }
+
+        .char-stat-widget .icon-exhibitionism {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Exhibitionism.png') !important;
+        }
+
+        .char-stat-widget .icon-deviancy {
+            background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Deviancy.png') !important;
+        }
+
+        /* 아이콘 스탯 패널 */
+        .char-stat-widget .icon-stat-panel {
+            position: absolute !important;
+            right: calc(100% + 6px) !important;  /* 12px에서 6px로 간격 감소 */
+            top: 50% !important;
+            transform: translateY(-50%) translateX(8px) !important;  /* 10px에서 8px로 감소 */
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            z-index: 40 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: clamp(6px, 1.2vw, 10px) !important;  /* 8px-12px에서 6px-10px로 감소 */
+            white-space: nowrap !important;
+        }
+
+        .char-stat-widget .icon-item.active .icon-stat-panel {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(-50%) translateX(0) !important;
+        }
+
+        .char-stat-widget .icon-stat-title {
+            font-size: clamp(12px, 2vw, 15px) !important;
+            font-weight: bold !important;
+            color: #ea76cb !important;
+            white-space: nowrap !important;
+            text-transform: capitalize !important;
+            -webkit-text-stroke: none !important;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
+        }
+
+        /* 세그먼트 게이지 바 */
+        .char-stat-widget .segment-gauge-container {
+            width: clamp(180px, 30vw, 280px) !important;  /* 원래 크기로 복원 */
+            height: clamp(16px, 2.5vh, 20px) !important;  /* 원래 크기로 복원 */
+            position: relative !important;
+            background: rgba(255, 255, 255, 0) !important;
+            display: block !important;
+            flex-shrink: 0 !important;
+            border-radius: 4px !important;
+            overflow: hidden !important;
+        }
+
+        .char-stat-widget .gauge-text-base {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            font-size: clamp(10px, 1.5vw, 12px) !important;
+            font-weight: 500 !important;
+            white-space: nowrap !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            color: #ea76cb !important;
+            -webkit-text-stroke: none !important;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
+        }
+
+        .char-stat-widget .gauge-fill {
+            height: 100% !important;
+            background: #ea76cb !important;
+            width: 0px !important;
+            transition: width 1s ease-out !important;
+            position: absolute !important;
+            top: 0 !important;
+            right: 0 !important;
+            z-index: 2 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            overflow: hidden !important;
+            border-radius: 4px !important;
+        }
+
+        .char-stat-widget .gauge-fill .gauge-text-clipped {
+            position: absolute !important;
+            width: var(--container-width, 160px) !important;
+            top: 50% !important;
+            right: 0 !important;
+            transform: translateY(-50%) !important;
+            text-align: center !important;
+            font-size: clamp(10px, 1.5vw, 12px) !important;
+            font-weight: 500 !important;
+            white-space: nowrap !important;
+            z-index: 3 !important;
+            pointer-events: none !important;
+            color: white !important;
+        }
+
+        .char-stat-widget .stat-value-display {
+            display: flex !important;
+            align-items: center !important;
+            gap: clamp(4px, 0.8vw, 6px) !important;
+        }
+
+        .char-stat-widget .stat-current {
+            font-size: clamp(14px, 2.5vw, 18px) !important;
+            font-weight: bold !important;
+            color: #ea76cb !important;
+            -webkit-text-stroke: none !important;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
+        }
+
+        .char-stat-widget .stat-separator {
+            font-size: clamp(12px, 2vw, 14px) !important;
+            color: #888 !important;
+            -webkit-text-stroke: none !important;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
+        }
+
+        .char-stat-widget .stat-max {
+            font-size: clamp(12px, 2vw, 14px) !important;
+            color: #888 !important;
+            -webkit-text-stroke: none !important;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
+        }
+
+        /* 캐릭터 몸체 부위 마커 */
+        .char-stat-widget .body-part {
+            position: absolute !important;
+            width: clamp(10px, 2.5vw, 16px) !important;
+            height: clamp(10px, 2.5vw, 16px) !important;
+            background: transparent !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            z-index: 15 !important;
+            opacity: 0 !important;
+            transform: translate(-50%, -50%) !important;
+        }
+
+        .char-stat-widget .body-part:hover {
+            background: rgba(255, 255, 255, 0.4) !important;
+            border: none !important;
+            opacity: 1 !important;
+        }
+
+        .char-stat-widget .body-part.show-position {
+            background: rgba(128, 128, 128, 0.3) !important;
+            border: 2px solid rgba(128, 128, 128, 0.5) !important;
+            opacity: 1 !important;
+        }
+
+        /* 부위별 위치 - 퍼센트 기반으로 더 정확하게 조정 */
+        .char-stat-widget .seduction-marker { top: 2.5% !important; left: 50% !important; }
+        .char-stat-widget .chest-marker { top: 21% !important; left: 49% !important; }
+        .char-stat-widget .buttocks-marker { top: 42% !important; left: 60.5% !important; }
+        .char-stat-widget .vaginal-marker { top: 37.5% !important; left: 51% !important; }
+        .char-stat-widget .thighs-marker { top: 53% !important; left: 47% !important; }
+        .char-stat-widget .oral-marker { top: 12% !important; left: 46.6% !important; }
+        .char-stat-widget .hands-marker { top: 14.5% !important; left: 38.5% !important; }
+        .char-stat-widget .anal-marker { top: 41% !important; left: 50% !important; }
+        .char-stat-widget .feet-marker { top: 96% !important; left: 49.3% !important; }
+
+        /* 스탯 텍스트 컨테이너 */
+        .char-stat-widget .stat-text-container {
+            position: absolute !important;
+            opacity: 0 !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            z-index: 25 !important;
+            pointer-events: none !important;
+            min-width: clamp(150px, 25vw, 250px) !important;
+        }
+
+        .char-stat-widget .stat-text-container.show {
+            opacity: 1 !important;
+        }
+
+        .char-stat-widget .stat-text {
+            opacity: 0 !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            margin-bottom: 8px !important;
+            font-size: clamp(12px, 2vw, 16px) !important;
+            color: var(--color-text-primary, #000) !important;
+            white-space: nowrap !important;
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.8),
+                         0 0 8px rgba(255, 255, 255, 0.6),
+                         1px 1px 2px rgba(255, 255, 255, 0.4) !important;
+        }
+        
+        .char-stat-widget .stat-grade {
+            font-weight: bold !important;
+            color: #ea76cb !important;
+        }
+
+        .char-stat-widget .stat-grade.none {
+            color: #ff4757 !important;
+        }
+        
+        .char-stat-widget .stat-percentage {
+            font-size: clamp(10px, 1.5vw, 14px) !important;
+            color: #888 !important;
+        }
+
+        .char-stat-widget .stat-text.show {
+            opacity: 1 !important;
+        }
+
+        /* 연결선 */
+        .char-stat-widget .connection-line {
+            position: absolute !important;
+            opacity: 0 !important;
+            transition: opacity 0.2s ease !important;
+            z-index: 20 !important;
+            pointer-events: none !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .char-stat-widget .connection-line.show {
+            opacity: 1 !important;
+        }
+
+        .char-stat-widget .connection-line svg {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: visible !important;
+        }
+
+        .char-stat-widget .connection-path {
+            fill: none !important;
+            stroke: #999 !important;
+            stroke-width: clamp(1px, 0.3vw, 2px) !important;
+            stroke-linecap: round !important;
+            stroke-linejoin: round !important;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6)) !important;
+        }
+
+        .char-stat-widget .end-point {
+            fill: #999 !important;
+            opacity: 0 !important;
+            transition: opacity 0.2s ease !important;
+            r: clamp(2px, 0.8vw, 5px) !important;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6)) !important;
+        }
+
+        .char-stat-widget .end-point.show {
+            opacity: 1 !important;
+        }
+
+        /* 캐릭터 설명 패널 */
+        .char-stat-widget .character-description {
+            position: absolute !important;
+            bottom: clamp(20px, 5vh, 50px) !important;
+            right: clamp(10px, 3vw, 30px) !important;
+            width: 65% !important;
+            max-width: 800px !important;
+            text-align: right !important;
+            z-index: 5 !important;
+            user-select: none !important;
+        }
+
+        /* 워터마크 스타일 */
+        .char-stat-widget .watermark {
+            position: absolute !important;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            font-family: "freight-big-pro", serif !important;
+            font-size: 13px !important;
+            color: rgba(136, 136, 136, 0.6) !important;
+            text-align: center !important;
+            user-select: none !important;
+            z-index: 50 !important;
+            white-space: nowrap !important;
+            letter-spacing: 0.8px !important;
+            opacity: 0.7 !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            pointer-events: auto !important;
+        }
+
+        .char-stat-widget .watermark:hover {
+            opacity: 1 !important;
+            color: rgba(136, 136, 136, 0.9) !important;
+            transform: translateX(-50%) scale(1.08) !important;
+        }
+
+        .char-stat-widget .description-line {
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(12px, 2.5vw, 22px) !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+            color: #888 !important;
+            line-height: 1.4 !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: keep-all !important;
+            opacity: 0 !important;
+            transform: translateY(15px) !important;
+            transition: all 0.6s ease-out !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            text-rendering: optimizeLegibility !important;
+        }
+
+        .char-stat-widget .description-line.animate {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* 각 줄마다 다른 딜레이 */
+        .char-stat-widget .description-line:nth-child(1) {
+            transition-delay: 1.2s !important;
+        }
+        .char-stat-widget .description-line:nth-child(2) {
+            transition-delay: 1.4s !important;
+        }
+        .char-stat-widget .description-line:nth-child(3) {
+            transition-delay: 1.6s !important;
+        }
+        .char-stat-widget .description-line:nth-child(4) {
+            transition-delay: 1.8s !important;
+        }
+        .char-stat-widget .description-line:nth-child(5) {
+            transition-delay: 2.0s !important;
+        }
+
+        /* 설명 텍스트 줄별 애니메이션 */
+        @keyframes lineSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 설명 텍스트 애니메이션 */
+        @keyframes descriptionFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 부가 스탯 패널 */
+        .char-stat-widget .sub-stats-panel {
+            position: absolute !important;
+            bottom: 20px !important;
+            left: 0 !important;
+            top: auto !important;
+            z-index: 25 !important;
+            display: flex !important;
+            align-items: flex-end !important;
+            transform: translateX(-320px) !important;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+
+        .char-stat-widget .sub-stats-panel.show {
+            transform: translateX(0) !important;
+        }
+
+        .char-stat-widget .sub-stats-content {
+            background: rgba(20, 20, 20, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 0 8px 0 0 !important;
+            padding: 20px !important;
+            width: 320px !important;
+            overflow: visible !important;  /* 스크롤바 제거 */
+        }
+
+        .char-stat-widget .sub-stats-pages {
+            display: none !important;
+        }
+
+        .char-stat-widget .sub-stats-pages.active {
+            display: block !important;
+        }
+        
+        /* LI 페이지는 active 클래스와 상관없이 기본적으로 숨김 */
+        .char-stat-widget #page-li {
+            display: none !important;
+        }
+        
+        .char-stat-widget #page-li.show-li {
+            display: block !important;
+        }
+
+        .char-stat-widget .page-navigation {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin-top: 15px !important;
+            padding-top: 15px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+            gap: 15px !important;
+        }
+
+        .char-stat-widget .page-indicator {
+            color: #aaa !important;
+            font-size: 14px !important;
+            font-family: "freight-big-pro", serif !important;
+        }
+
+        .char-stat-widget .page-btn {
+            background: transparent !important;
+            border: none !important;
+            color: #aaa !important;
+            padding: 5px 10px !important;
+            border-radius: 4px !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .char-stat-widget .page-btn:hover {
+            color: #fff !important;
+        }
+
+        .char-stat-widget .page-btn:disabled {
+            opacity: 0.3 !important;
+            cursor: not-allowed !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0 !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle {
+            background: rgba(20, 20, 20, 0.9) !important;
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-left: none !important;
+            border-radius: 0 8px 8px 0 !important;
+            padding: 10px 5px !important;
+            cursor: pointer !important;
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(12px, 2vw, 16px) !important;
+            transition: all 0.3s ease !important;
+            writing-mode: vertical-rl !important;
+            text-orientation: mixed !important;
+            height: 100px !important;
+            width: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-left: -1px !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle:first-child {
+            border-radius: 0 8px 0 0 !important;
+            border-bottom: none !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle:last-child {
+            border-radius: 0 0 8px 0 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle:not(:first-child):not(:last-child) {
+            border-radius: 0 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: none !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle:hover {
+            background: rgba(40, 40, 40, 0.95) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        .char-stat-widget .sub-stats-toggle.active {
+            background: rgba(102, 51, 153, 0.6) !important;
+            border-color: transparent !important;
+            z-index: 1 !important;
+        }
+
+        .char-stat-widget .sub-stat-item {
+            display: grid !important;
+            grid-template-columns: 24px 80px 1fr 25px 35px !important;
+            gap: 8px !important;
+            align-items: center !important;
+            margin-bottom: 12px !important;
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(12px, 2vw, 16px) !important;
+            font-feature-settings: normal !important;
+            -webkit-font-feature-settings: normal !important;
+            -moz-font-feature-settings: normal !important;
+        }
+
+        .char-stat-widget .sub-stat-item.no-icon {
+            grid-template-columns: 104px 1fr 25px 35px !important;
+        }
+
+        .char-stat-widget .sub-stat-icon {
+            width: 20px !important;
+            height: 20px !important;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .char-stat-widget .sub-stat-label {
+            color: #aaa !important;
+            text-align: left !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .char-stat-widget .sub-stat-grade {
+            font-weight: bold !important;
+            text-align: center !important;
+        }
+
+        /* 등급별 색상 */
+        .char-stat-widget .sub-stat-grade.grade-f {
+            color: #e10583 !important;
+        }
+
+        .char-stat-widget .sub-stat-grade.grade-d {
+            color: #a94ac7 !important;
+        }
+
+        .char-stat-widget .sub-stat-grade.grade-c {
+            color: #4c71fd !important;
+        }
+
+        .char-stat-widget .sub-stat-grade.grade-b {
+            color: #5a9bbf !important;
+        }
+
+        .char-stat-widget .sub-stat-grade.grade-a {
+            color: #29c1c0 !important;
+        }
+
+        .char-stat-widget .sub-stat-grade.grade-s {
+            color: #2eb216 !important;
+        }
+
+        /* A* 등급 (학업용) */
+        .char-stat-widget .sub-stat-grade.grade-astar {
+            color: #2eb216 !important;
+        }
+
+        .char-stat-widget .sub-stat-value {
+            color: #fff !important;
+            font-weight: bold !important;
+            text-align: right !important;
+        }
+
+        .char-stat-widget .sub-stat-bar {
+            height: 4px !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-radius: 2px !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+
+        .char-stat-widget .sub-stat-fill {
+            height: 100% !important;
+            background: linear-gradient(90deg, #8a1def, #ea76cb) !important;
+            border-radius: 2px !important;
+            transition: none !important;  /* 기본적으로 트랜지션 없음 */
+        }
+        
+        /* 애니메이션이 필요할 때만 트랜지션 적용 */
+        .char-stat-widget .sub-stat-fill.animating {
+            transition: width 0.6s ease !important;
+        }
+
+        /* NPC 호감도 아이템 */
+        .char-stat-widget .npc-item {
+            padding: 15px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .char-stat-widget .npc-item:last-child {
+            border-bottom: none !important;
+        }
+
+        .char-stat-widget .npc-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            margin-bottom: 8px !important;
+        }
+
+        .char-stat-widget .npc-name-container {
+            display: flex !important;
+            align-items: baseline !important;
+            gap: 6px !important;
+        }
+
+        .char-stat-widget .npc-name {
+            font-size: 16px !important;
+            font-weight: bold !important;
+            color: #ea76cb !important;
+        }
+
+        .char-stat-widget .npc-gender {
+            font-size: 14px !important;
+            font-weight: bold !important;
+            margin: 0 2px !important;
+        }
+
+        .char-stat-widget .npc-gender[data-gender="male"] {
+            color: #4a9eff !important;
+        }
+
+        .char-stat-widget .npc-gender[data-gender="female"] {
+            color: #ff69b4 !important;
+        }
+
+        .char-stat-widget .npc-gender[data-gender="nb"] {
+            color: #9b59b6 !important;
+        }
+
+        .char-stat-widget .npc-title {
+            font-size: 13px !important;
+            font-style: italic !important;
+            color: #888 !important;
+            font-weight: normal !important;
+            opacity: 0.8 !important;
+        }
+
+        .char-stat-widget .npc-status {
+            font-size: 14px !important;
+            padding: 2px 8px !important;
+            border-radius: 12px !important;
+            color: #fff !important;
+            background: rgba(234, 118, 203, 0.6) !important;
+        }
+
+        .char-stat-widget .npc-description {
+            font-size: 14px !important;
+            color: #aaa !important;
+            line-height: 1.4 !important;
+        }
+
+        .char-stat-widget .npc-char-name {
+            font-weight: bold !important;
+            color: #fff !important;
+        }
+
+        /* 캐릭터별 관계 설명 텍스트 색상 */
+        .char-stat-widget .npc-sentence[data-character="robin"] {
+            color: #29c1c0 !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="whitney"] {
+            color: #cf5180 !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="kylar"] {
+            color: #d50576 !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="avery"] {
+            color: #3ead13 !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="eden"] {
+            color: #cccccc !important;  /* 흰색에서 밝은 회색으로 변경 */
+            font-weight: 300 !important;
+            font-family: inherit !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="alex"] {
+            color: #1a45ee !important;
+        }
+
+        .char-stat-widget .npc-sentence[data-character="sydney"] {
+            color: #3ead13 !important;
+        }
+
+        /* 스탠드 패널 - 왼쪽 패널과 동일한 스타일 */
+        .char-stat-widget .stand-panel {
+            position: absolute !important;
+            bottom: 20px !important;
+            right: 0 !important;
+            top: auto !important;
+            z-index: 35 !important;  /* 아이콘 패널(30)보다 위로 설정 */
+            display: flex !important;
+            align-items: flex-end !important;
+            transform: translateX(270px) !important;  /* 콘텐츠 너비와 동일하게 설정 */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+
+        .char-stat-widget .stand-panel.show {
+            transform: translateX(0) !important;
+        }
+
+        /* 스탠드 토글 버튼 - Stats 버튼과 동일한 스타일 */
+        .char-stat-widget .stand-toggle {
+            background: rgba(20, 20, 20, 0.9) !important;
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-right: none !important;
+            border-radius: 8px 0 0 8px !important;
+            padding: 10px 5px !important;
+            cursor: pointer !important;
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(12px, 2vw, 16px) !important;
+            transition: all 0.3s ease !important;
+            writing-mode: vertical-rl !important;
+            text-orientation: mixed !important;
+            height: 100px !important;
+            width: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-right: -1px !important;
+        }
+
+        .char-stat-widget .stand-toggle:hover {
+            background: rgba(40, 40, 40, 0.95) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        .char-stat-widget .stand-toggle.active {
+            background: rgba(234, 118, 203, 0.6) !important; /* 분홍색으로 변경 */
+            border-color: transparent !important;
+        }
+
+        /* 스탠드 콘텐츠 컨테이너 */
+        .char-stat-widget .stand-content {
+            background: rgba(20, 20, 20, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px 0 0 0 !important;
+            padding: 15px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 270px !important;  /* 명시적 너비 설정 */
+        }
+
+        /* 스탠드 위젯 스타일 */
+        .char-stat-widget .stand-widget {
+            position: relative !important;
+            display: inline-block !important;
+        }
+
+        .char-stat-widget .stand-widget .display-area {
+            position: relative !important;
+            width: auto !important;
+            height: auto !important;
+            display: inline-block !important;
+        }
+
+        .char-stat-widget .stand-widget .layer {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            display: block !important;
+            height: 350px !important;
+            width: auto !important;
+        }
+
+        .char-stat-widget .stand-widget #background-layer {
+            z-index: 1 !important;
+            position: relative !important;
+        }
+
+        .char-stat-widget .stand-widget #character-layer {
+            z-index: 2 !important;
+        }
+
+        .char-stat-widget .stand-widget #frame-layer {
+            z-index: 3 !important;
+        }
+
+        .char-stat-widget .stand-widget .nav-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            cursor: pointer !important;
+            z-index: 4 !important;
+            width: 25px !important;
+            height: auto !important;
+        }
+
+        .char-stat-widget .stand-widget .nav-btn.prev {
+            left: 5px !important;
+            transition: left 0.3s ease !important;
+        }
+
+        .char-stat-widget .stand-widget .nav-btn.next {
+            right: 5px !important;
+            transition: right 0.3s ease !important;
+        }
+
+        .char-stat-widget .stand-widget .nav-btn.prev:hover {
+            left: 0px !important;
+        }
+
+        .char-stat-widget .stand-widget .nav-btn.next:hover {
+            right: 0px !important;
+        }
+
+        @keyframes standMoveLeft {
+            0% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(-5px); }
+            100% { transform: translateY(-50%) translateX(0); }
+        }
+
+        @keyframes standMoveRight {
+            0% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(5px); }
+            100% { transform: translateY(-50%) translateX(0); }
+        }
+
+        /* 캐릭터 이름 표시 */
+        .char-stat-widget .stand-info {
+            margin-top: 10px !important;
+            text-align: center !important;
+            font-family: "freight-big-pro", serif !important;
+            font-size: clamp(12px, 2vw, 16px) !important;
+            color: #aaa !important;
+        }
+
+        .char-stat-widget .stand-name {
+            color: #ea76cb !important;
+            font-weight: bold !important;
+            font-family: "freight-big-pro", serif !important;
+        }
+
+        /* 다크모드 대응 추가 */
+        @media (prefers-color-scheme: dark) {
+            .char-stat-widget .name-rest {
+                color: #fff !important;
+                text-shadow: 0 0 4px rgba(0, 0, 0, 0.8),
+                             0 0 8px rgba(0, 0, 0, 0.6) !important;
+            }
+            
+            .char-stat-widget .stat-text {
+                color: #fff !important;
+                text-shadow: 0 0 4px rgba(0, 0, 0, 0.8),
+                             0 0 8px rgba(0, 0, 0, 0.6),
+                             1px 1px 2px rgba(0, 0, 0, 0.4) !important;
+            }
+        }
+        
+        /* 티스토리 다크모드 변수 대응 */
+        [data-theme="dark"] .char-stat-widget .name-rest,
+        .darkmode .char-stat-widget .name-rest,
+        .dark-mode .char-stat-widget .name-rest {
+            color: #fff !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8),
+                         0 0 8px rgba(0, 0, 0, 0.6) !important;
+        }
+        
+        [data-theme="dark"] .char-stat-widget .stat-text,
+        .darkmode .char-stat-widget .stat-text,
+        .dark-mode .char-stat-widget .stat-text {
+            color: #fff !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8),
+                         0 0 8px rgba(0, 0, 0, 0.6),
+                         1px 1px 2px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* 반응형 브레이크포인트 */
+        @media (min-width: 1920px) {
+            .char-stat-widget .description-line {
+                font-size: 20px !important;
+            }
+        }
+
+        @media (min-width: 2560px) {
+            .char-stat-widget .description-line {
+                font-size: 24px !important;
+            }
+        }
+
+        @media (max-width: 1366px) {
+            .char-stat-widget .description-line {
+                font-size: clamp(11px, 2vw, 18px) !important;
+            }
+            .char-stat-widget .character-description {
+                width: 60% !important;
+                max-width: 700px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .char-stat-widget .container {
+                padding: 10px !important;
+            }
+            
+            .char-stat-widget .character-container {
+                width: min(95vw, 70vh, 600px) !important;
+                height: min(127vw, 90vh, 780px) !important;
+            }
+
+            .char-stat-widget .icon-panel {
+                top: clamp(15px, 3vh, 30px) !important;
+                right: clamp(3px, 1.5vw, 10px) !important;  /* 태블릿에서 오른쪽 가장자리에 더 가깝게 */
+                gap: clamp(6px, 1vh, 10px) !important;
+            }
+
+            .char-stat-widget .icon-item {
+                width: clamp(18px, 3vw, 26px) !important;  /* 22px-32px에서 18px-26px로 더 축소 */
+                height: clamp(18px, 3vw, 26px) !important;
+            }
+
+            .char-stat-widget .body-part {
+                width: clamp(16px, 3.5vw, 20px) !important;
+                height: clamp(16px, 3.5vw, 20px) !important;
+            }
+
+            .char-stat-widget .character-name {
+                font-size: clamp(38px, 7.5vw, 54px) !important;
+                margin-bottom: 5px !important;
+            }
+
+            .char-stat-widget .character-title {
+                font-size: clamp(20px, 4vw, 28px) !important;
+                margin-top: -15px !important;
+            }
+
+            .char-stat-widget .description-line {
+                font-size: clamp(14px, 2.8vw, 20px) !important;
+            }
+            
+            /* 스탠드 패널 태블릿 반응형 */
+            .char-stat-widget .stand-panel {
+                transform: translateX(220px) !important;
+            }
+            
+            .char-stat-widget .stand-content {
+                width: 220px !important;
+                padding: 12px !important;
+            }
+            
+            .char-stat-widget .stand-widget .layer {
+                height: 280px !important;
+            }
+            
+            .char-stat-widget .stand-toggle {
+                height: 80px !important;
+                width: 25px !important;
+                font-size: 14px !important;
+            }
+
+            /* NPC 호감도 태블릿 스타일 */
+            .char-stat-widget .npc-item {
+                padding: 12px 0 !important;
+            }
+            
+            .char-stat-widget .npc-name {
+                font-size: 15px !important;
+            }
+            
+            .char-stat-widget .npc-gender {
+                font-size: 13px !important;
+            }
+            
+            .char-stat-widget .npc-title {
+                font-size: 12px !important;
+            }
+            
+            .char-stat-widget .npc-status {
+                font-size: 13px !important;
+                padding: 3px 10px !important;
+            }
+            
+            .char-stat-widget .npc-description {
+                font-size: 13px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .char-stat-widget .character-container {
+                width: min(98vw, 75vh, 450px) !important;
+                height: min(130vw, 95vh, 585px) !important;
+            }
+            
+            .char-stat-widget .stat-text-container {
+                min-width: clamp(120px, 30vw, 200px) !important;
+            }
+
+            .char-stat-widget .icon-panel {
+                top: clamp(10px, 2vh, 20px) !important;
+                right: clamp(2px, 1vw, 8px) !important;  /* 모바일에서 오른쪽 가장자리에 매우 가깝게 */
+            }
+
+            .char-stat-widget .icon-item {
+                width: clamp(22px, 3.5vw, 32px) !important;
+                height: clamp(22px, 3.5vw, 32px) !important;
+            }
+
+            .char-stat-widget .character-info {
+                top: clamp(10px, 2vh, 20px) !important;
+                left: clamp(10px, 2vw, 20px) !important;
+            }
+
+            .char-stat-widget .character-name {
+                font-size: clamp(32px, 6.5vw, 50px) !important;
+                margin-bottom: 8px !important;
+            }
+
+            .char-stat-widget .character-title {
+                font-size: clamp(16px, 3vw, 24px) !important;
+                margin-top: -15px !important;
+            }
+
+            .char-stat-widget .character-description {
+                bottom: clamp(10px, 2vh, 20px) !important;
+                right: clamp(5px, 1vw, 10px) !important;
+            }
+
+            .char-stat-widget .description-line {
+                font-size: clamp(10px, 2.5vw, 18px) !important;
+            }
+
+            /* 작은 모바일에서 부가 스탯 패널 추가 조정 */
+            .char-stat-widget .sub-stats-panel {
+                transform: translateX(-220px) !important;
+                bottom: 10px !important;
+            }
+
+            .char-stat-widget .sub-stats-panel.show {
+                transform: translateX(0) !important;
+            }
+
+            .char-stat-widget .sub-stats-content {
+                width: 220px !important;
+                padding: 12px !important;
+                overflow: visible !important;  /* 스크롤바 완전 제거 */
+                /* max-height 제거하여 모든 콘텐츠 표시 */
+            }
+
+            .char-stat-widget .sub-stat-item {
+                grid-template-columns: 18px 55px 1fr 18px 28px !important;
+                gap: 4px !important;
+                margin-bottom: 8px !important;
+                font-size: 11px !important;
+            }
+
+            .char-stat-widget .sub-stat-item.no-icon {
+                grid-template-columns: 73px 1fr 18px 28px !important;
+            }
+
+            .char-stat-widget .sub-stat-icon {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            .char-stat-widget .sub-stats-toggle {
+                height: 70px !important;
+                width: 22px !important;
+                font-size: 11px !important;
+                padding: 8px 3px !important;
+            }
+            
+            /* NPC 호감도 모바일 스타일 - 간격 줄이기 */
+            .char-stat-widget .npc-item {
+                padding: 6px 0 !important;  /* 8px에서 6px로 줄임 */
+                margin-bottom: 8px !important;
+            }
+            
+            .char-stat-widget .npc-item:last-child {
+                margin-bottom: 0 !important;
+            }
+            
+            .char-stat-widget .npc-header {
+                margin-bottom: 4px !important;  /* 8px에서 4px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-name-container {
+                gap: 3px !important;  /* 4px에서 3px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-name {
+                font-size: 12px !important;  /* 13px에서 12px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-gender {
+                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-title {
+                font-size: 9px !important;  /* 10px에서 9px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-status {
+                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
+                padding: 2px 5px !important;  /* 2px 6px에서 2px 5px로 줄임 */
+            }
+            
+            .char-stat-widget .npc-description {
+                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
+                line-height: 1.2 !important;  /* 1.3에서 1.2로 줄임 */
+            }
+
+            .char-stat-widget .page-navigation {
+                margin-top: 10px !important;
+                padding-top: 10px !important;
+                gap: 10px !important;
+            }
+
+            .char-stat-widget .page-btn {
+                font-size: 12px !important;
+                padding: 2px 6px !important;
+            }
+
+            .char-stat-widget .page-indicator {
+                font-size: 11px !important;
+            }
+
+            .char-stat-widget .sub-stat-bar {
+                height: 3px !important;
+            }
+
+            .char-stat-widget .sub-stat-label {
+                font-size: 10px !important;
+            }
+
+            .char-stat-widget .sub-stat-grade,
+            .char-stat-widget .sub-stat-value {
+                font-size: 11px !important;
+            }
+            
+            /* 스탠드 패널 모바일 반응형 */
+            .char-stat-widget .stand-panel {
+                transform: translateX(180px) !important;
+                bottom: 10px !important;
+            }
+            
+            .char-stat-widget .stand-panel.show {
+                transform: translateX(0) !important;
+            }
+            
+            .char-stat-widget .stand-content {
+                width: 180px !important;
+                padding: 10px !important;
+            }
+            
+            .char-stat-widget .stand-widget .layer {
+                height: 200px !important;
+            }
+            
+            .char-stat-widget .stand-widget .nav-btn {
+                width: 20px !important;
+            }
+            
+            .char-stat-widget .stand-widget .nav-btn.prev {
+                left: 2px !important;
+            }
+            
+            .char-stat-widget .stand-widget .nav-btn.next {
+                right: 2px !important;
+            }
+            
+            .char-stat-widget .stand-toggle {
+                height: 70px !important;
+                width: 22px !important;
+                font-size: 11px !important;
+                padding: 8px 3px !important;
+            }
+            
+            .char-stat-widget .stand-info {
+                margin-top: 8px !important;
+                font-size: 11px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="char-stat-widget">
+        <div class="container">
+            <!-- 캐릭터 정보 -->
+            <div class="character-info">
+                <div class="character-name">
+                    <!-- 캐릭터 이름 및 글자 색상 -->
+                    <span class="name-first-letter" style="color: #8a1def !important;">A</span><span class="name-rest">me</span>
+                </div>
+                <!-- 캐릭터 칭호 -->
+                <div class="character-title">The Smarter</div>
+            </div>
+
+            <!-- 부가 스탯 패널 -->
+            <div class="sub-stats-panel">
+                <div class="sub-stats-content">
+                    <!-- 페이지 1: 학업 -->
+                    <div class="sub-stats-pages active" id="page-1">
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/science.png')"></span>
+                            <span class="sub-stat-label">Science</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="98%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">98</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/math.png')"></span>
+                            <span class="sub-stat-label">Maths</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="96%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">96</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/english.png')"></span>
+                            <span class="sub-stat-label">English</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="95%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">95</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/history.png')"></span>
+                            <span class="sub-stat-label">History</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="91%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">91</span>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 2: 활동 -->
+                    <div class="sub-stats-pages" id="page-2">
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Skulduggery</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="7%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-f">F</span>
+                            <span class="sub-stat-value">7</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Dancing</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="78%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-a">A+</span>
+                            <span class="sub-stat-value">78</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Swimming</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="63%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-a">A</span>
+                            <span class="sub-stat-value">63</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Athletics</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="98%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-b">B</span>
+                            <span class="sub-stat-value">98</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Tending</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="59%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-b">B+</span>
+                            <span class="sub-stat-value">59</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Housekeeping</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="100%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-s">S</span>
+                            <span class="sub-stat-value">100</span>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 3: 호감도 (LI) - 초기에는 숨김 -->
+                    <div class="sub-stats-pages" id="page-li" style="display: none;">
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Robin</span>
+                                    <span class="npc-gender" data-gender="female">♀</span>
+                                    <span class="npc-title">the orphan</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Robin</span>
+                                <span class="npc-sentence" data-character="robin">thinks you're their best friend.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Whitney</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the bully</span>
+                                </div>
+                                <span class="npc-status">Lovers</span>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Whitney</span>
+                                <span class="npc-sentence" data-character="whitney">owns you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Sydney</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the faithful</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Sydney</span>
+                                <span class="npc-sentence" data-character="sydney">is very fond of you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Kylar</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the loner</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Kylar</span>
+                                <span class="npc-sentence" data-character="kylar">is obsessed with you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Avery</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the businessman</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Avery</span>
+                                <span class="npc-sentence" data-character="avery">prizes you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Alex</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the farmhand</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Alex</span>
+                                <span class="npc-sentence" data-character="alex">can't be more grateful.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Eden</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the hunter</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Eden</span>
+                                <span class="npc-sentence" data-character="eden">has no strong opinion of you.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 네비게이션 (통합) -->
+                    <div class="page-navigation" id="page-navigation">
+                        <button class="page-btn" id="prev-btn">◀</button>
+                        <span class="page-indicator">Page <span id="current-page">1</span> / <span id="total-pages">2</span></span>
+                        <button class="page-btn" id="next-btn">▶</button>
+                    </div>
+                </div>
+                <div class="sub-stats-toggle-wrapper">
+                    <button class="sub-stats-toggle" data-tab="page1">Stats</button>
+                    <button class="sub-stats-toggle" data-tab="li">LI</button>
+                </div>
+            </div>
+
+            <!-- 스탠드 패널 -->
+            <div class="stand-panel">
+                <div class="stand-toggle-wrapper">
+                    <button class="stand-toggle">Stand</button>
+                </div>
+                <div class="stand-content">
+                    <!-- 스탠드 위젯 -->
+                    <div class="stand-widget" id="characterStand">
+                        <div class="display-area">
+                            <!-- 배경 레이어 -->
+                            <img id="background-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%B0%B0%EA%B2%BD.png" 
+                                 alt="배경">
+                            
+                            <!-- 캐릭터 레이어 -->
+                            <img id="character-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif"
+                                 alt="캐릭터">
+                            
+                            <!-- 프레임 레이어 -->
+                            <img id="frame-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%ED%94%84%EB%A0%88%EC%9E%84.png" 
+                                 alt="프레임">
+                            
+                            <!-- 좌우 네비게이션 버튼 -->
+                            <img class="nav-btn prev" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/prev.png" 
+                                 alt="이전">
+                            <img class="nav-btn next" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/next.png" 
+                                 alt="다음">
+                        </div>
+                    </div>
+                    <!-- 캐릭터 이름 표시 -->
+                    <div class="stand-info">
+                        <span class="stand-name" id="stand-current-name">기본</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-container">
+                <div class="character-silhouette bg-image"></div>
+                <div class="character bg-image"></div>
+
+                <!-- 부위 마커들 -->
+                <div class="body-part seduction-marker" data-stat="seduction"></div>
+                <div class="body-part chest-marker" data-stat="chest"></div>
+                <div class="body-part buttocks-marker" data-stat="buttocks"></div>
+                <div class="body-part vaginal-marker" data-stat="vaginal"></div>
+                <div class="body-part thighs-marker" data-stat="thighs"></div>
+                <div class="body-part oral-marker" data-stat="oral"></div>
+                <div class="body-part hands-marker" data-stat="hands"></div>
+                <div class="body-part anal-marker" data-stat="anal"></div>
+                <div class="body-part feet-marker" data-stat="feet"></div>
+
+                <!-- 스탯 텍스트 컨테이너들 -->
+                <div class="stat-text-container" id="stat-seduction"></div>
+                <div class="stat-text-container" id="stat-chest"></div>
+                <div class="stat-text-container" id="stat-buttocks"></div>
+                <div class="stat-text-container" id="stat-vaginal"></div>
+                <div class="stat-text-container" id="stat-thighs"></div>
+                <div class="stat-text-container" id="stat-oral"></div>
+                <div class="stat-text-container" id="stat-hands"></div>
+                <div class="stat-text-container" id="stat-anal"></div>
+                <div class="stat-text-container" id="stat-feet"></div>
+
+                <!-- 연결선들 -->
+                <div class="connection-line" id="line-seduction">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-chest">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-buttocks">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-vaginal">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-thighs">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-oral">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-hands">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-anal">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-feet">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+            </div>
+
+            <!-- 아이콘 패널 -->
+            <div class="icon-panel">
+                <div class="icon-item icon-purity bg-image" data-icon="purity">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">7</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">7</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You feel somewhat defiled.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You feel somewhat defiled.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Purity</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-beauty bg-image" data-icon="beauty">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">6</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are ravishing.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are ravishing.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Beauty</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-physique bg-image" data-icon="physique">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">2</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">Your body is slim and athletic.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">Your body is slim and athletic.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Physique</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-willpower bg-image" data-icon="willpower">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">5</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are mindful.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are mindful.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Willpower</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-awareness bg-image" data-icon="awareness">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">3</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">7</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are almost entirely innocent.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are almost entirely innocent.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Awareness</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-promiscuity bg-image" data-icon="promiscuity">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">1</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You crave sexual contact.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You crave sexual contact.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Promiscuity</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-exhibitionism bg-image" data-icon="exhibitionism">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">0</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You enjoy lewd attention.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You enjoy lewd attention.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Exhibitionism</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-deviancy bg-image" data-icon="deviancy">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">0</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">Your tastes are strange.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">Your tastes are strange.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Deviancy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 캐릭터 설명 -->
+            <div class="character-description">
+                <div class="description-line">You are an angel girl.</div>
+                <div class="description-line">You are of average height. You have purple eyes. You have a light skin colour.</div>
+                <div class="description-line">You have huge breasts. You have a plump ass. You have a vagina.</div>
+                <div class="description-line">When left natural, your very long black hair reaches your thighs,</div>
+                <div class="description-line">and your fringe is short.</div>
+            </div>
+
+            <!-- 워터마크 -->
+            <a href="https://twilight-light.tistory.com/" target="_blank" class="watermark">© 2025 Device.</a>
+        </div>
+    </div>
+
+    <script>
+        /*!
+         * Character Stat Widget v1.0
+         * Copyright (c) 2024 Your Name. All rights reserved.
+         * This code is proprietary and confidential.
+         * Unauthorized copying or distribution is prohibited.
+         */
+        (function() {
+            // 우클릭 방지 (디버깅을 위해 개발자 도구 감지는 일시적으로 제거)
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.char-stat-widget')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            const CharStatWidget = {
+                animationTimeouts: [],
+                showingPositions: false,
+                
+                // 스탯별 설명 데이터
+                statDescriptions: {
+                    purity: {
+                        7: "You're angelic.",
+                        6: "You don't feel entirely pure.",
+                        5: "You feel slightly soiled.",
+                        4: "You feel soiled.",
+                        3: "You feel somewhat defiled.",
+                        2: "You feel defiled.",
+                        1: "You feel utterly defiled.",
+                        0: "You are beyond defiled."
+                    },
+                    physique: {
+                        0: "You are emaciated.",
+                        1: "You are skinny.",
+                        2: "Your body is lithe and slender.",
+                        3: "Your body is slim.",
+                        4: "Your body is slim and athletic.",
+                        5: "Your body is toned and firm.",
+                        6: "Your body is toned and powerful."
+                    },
+                    willpower: {
+                        0: "You are timid.",
+                        1: "You are fainthearted.",
+                        2: "You are mindful.",
+                        3: "You are resolved.",
+                        4: "You are determined.",
+                        5: "You are tenacious.",
+                        6: "Your will is iron."
+                    },
+                    beauty: {
+                        0: "You are plain.",
+                        1: "You are cute.",
+                        2: "You are pretty.",
+                        3: "You are charming.",
+                        4: "You are beautiful.",
+                        5: "You are ravishing.",
+                        6: "Your beauty is divine."
+                    },
+                    promiscuity: {
+                        0: "You are chaste and pure.",
+                        1: "You are prudish.",
+                        2: "You are sexually curious.",
+                        3: "The thought of sexual contact excites you.",
+                        4: "You crave sexual contact.",
+                        5: "You are a slut.",
+                        6: "Your sexual appetite is insatiable."
+                    },
+                    exhibitionism: {
+                        0: "You are coy.",
+                        1: "You are shy.",
+                        2: "You like being sexualized.",
+                        3: "You enjoy lewd attention.",
+                        4: "Feeling exposed excites you.",
+                        5: "You are shameless.",
+                        6: "The thought of exposure fills you with wild abandon."
+                    },
+                    deviancy: {
+                        0: "You are squeamish.",
+                        1: "You are conventional.",
+                        2: "Your tastes are strange.",
+                        3: "Your tastes are shocking.",
+                        4: "Your desires are scandalous.",
+                        5: "You crave acts others wouldn't even conceive of.",
+                        6: "You lust for the unspeakable."
+                    },
+                    awareness: {
+                        0: "You are innocent.",
+                        1: "You are almost entirely innocent.",
+                        2: "You have a limited understanding of sexuality.",
+                        3: "You have a normal understanding of sexuality.",
+                        4: "Your knowledge of sexual depravity extends beyond that of most people.",
+                        5: "You have seen things that few are privy to.",
+                        6: "You have peered into the depths of depravity.",
+                        7: "Your understanding is transcendental."
+                    }
+                },
+                
+                init: function() {
+                    this.markers = document.querySelectorAll('.char-stat-widget .body-part');
+                    this.statContainers = document.querySelectorAll('.char-stat-widget .stat-text-container');
+                    this.lines = document.querySelectorAll('.char-stat-widget .connection-line');
+                    this.characterImage = document.querySelector('.char-stat-widget .character');
+                    this.silhouetteImage = document.querySelector('.char-stat-widget .character-silhouette');
+                    this.iconItems = document.querySelectorAll('.char-stat-widget .icon-item');
+                    
+                    this.bindEvents();
+                    this.handleResize();
+                    this.updateStatDescriptions();
+                    this.initSubStats();
+                    this.initStandPanel();  // 스탠드 패널 초기화 추가
+                    this.initScrollAnimation();
+                },
+
+                // 스크롤 애니메이션 초기화
+                initScrollAnimation: function() {
+                    let animationTriggered = false;
+                    
+                    const triggerAnimation = () => {
+                        if (animationTriggered) return;
+                        
+                        const widget = document.querySelector('.char-stat-widget');
+                        if (!widget) {
+                            console.log('Widget not found');
+                            return;
+                        }
+                        
+                        const rect = widget.getBoundingClientRect();
+                        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+                        const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+                        const visibleRatio = visibleHeight / rect.height;
+                        
+                        console.log('Checking visibility:', {
+                            top: rect.top,
+                            bottom: rect.bottom,
+                            windowHeight: windowHeight,
+                            visibleRatio: visibleRatio
+                        });
+                        
+                        if (rect.top < windowHeight && rect.bottom > 0 && visibleRatio > 0.3) {
+                            console.log('Triggering animations');
+                            animationTriggered = true;
+                            
+                            const firstLetter = document.querySelector('.char-stat-widget .name-first-letter');
+                            const nameRest = document.querySelector('.char-stat-widget .name-rest');
+                            const title = document.querySelector('.char-stat-widget .character-title');
+                            const descriptionLines = document.querySelectorAll('.char-stat-widget .description-line');
+                            
+                            if (firstLetter) {
+                                firstLetter.classList.add('animate');
+                                console.log('First letter animated');
+                            }
+                            if (nameRest) {
+                                nameRest.classList.add('animate');
+                                console.log('Name rest animated');
+                            }
+                            if (title) {
+                                title.classList.add('animate');
+                                console.log('Title animated');
+                            }
+                            
+                            descriptionLines.forEach((line) => {
+                                line.classList.add('animate');
+                            });
+                            console.log('Description lines animated:', descriptionLines.length);
+                            
+                            window.removeEventListener('scroll', triggerAnimation);
+                            window.removeEventListener('resize', triggerAnimation);
+                        }
+                    };
+                    
+                    setTimeout(triggerAnimation, 100);
+                    
+                    window.addEventListener('scroll', triggerAnimation);
+                    window.addEventListener('resize', triggerAnimation);
+                    
+                    console.log('Scroll animation initialized');
+                },
+
+                // 부가 스탯 패널 초기화 - 통합된 애니메이션 함수 포함
+                initSubStats: function() {
+                    console.log('🚀 initSubStats 실행됨');
+                    const subStatsTabs = document.querySelectorAll('.char-stat-widget .sub-stats-toggle');
+                    const subStatsPanel = document.querySelector('.char-stat-widget .sub-stats-panel');
+                    
+                    console.log('탭 개수:', subStatsTabs.length, '패널:', subStatsPanel ? '있음' : '없음');
+                    
+                    // 게이지 애니메이션 통합 함수
+                    const animateSubStatGauges = (container, delay = 100, source = 'unknown') => {
+                        console.log(`🎬 animateSubStatGauges 호출됨 - source: ${source}, delay: ${delay}`);
+                        const fills = container.querySelectorAll('.sub-stat-fill');
+                        fills.forEach((fill, index) => {
+                            const targetWidth = fill.dataset.target || fill.style.width;
+                            console.log(`  📊 게이지 ${index}: 목표 width = ${targetWidth}`);
+                            
+                            // 애니메이션 클래스 추가
+                            fill.classList.add('animating');
+                            
+                            setTimeout(() => {
+                                fill.style.width = targetWidth;
+                                console.log(`  ✅ 게이지 ${index}: width 설정 = ${targetWidth}`);
+                                
+                                // 애니메이션 완료 후 클래스 제거
+                                setTimeout(() => {
+                                    fill.classList.remove('animating');
+                                }, 600);
+                            }, delay);
+                        });
+                    };
+                    
+                    // 탭 토글
+                    if (subStatsTabs.length > 0 && subStatsPanel) {
+                        let isPanelInitialized = false;
+                        let isPanelOpen = false;
+                        let currentActiveTab = null;
+                        
+                        // 네비게이션 요소들
+                        const page1 = document.getElementById('page-1');
+                        const page2 = document.getElementById('page-2');
+                        const pageLI = document.getElementById('page-li');
+                        const pageNavigation = document.getElementById('page-navigation');
+                        const totalPagesSpan = document.getElementById('total-pages');
+                        const prevBtn = document.getElementById('prev-btn');
+                        const nextBtn = document.getElementById('next-btn');
+                        const currentPageSpan = document.getElementById('current-page');
+                        
+                        // 각 탭별 페이지 상태 관리
+                        let statsCurrentPage = 1;
+                        let statsMaxPages = 2;
+                        let liCurrentPage = 1;
+                        let liMaxPages = 1; // 현재는 1페이지, 추후 확장 가능
+                        
+                        // 네비게이션 업데이트 함수
+                        const updateNavigation = (tabType) => {
+                            console.log('updateNavigation 호출됨:', tabType);
+                            
+                            if (tabType === 'li') {
+                                // LI 탭의 페이지 정보 표시
+                                if (liMaxPages > 1) {
+                                    // LI 탭에 여러 페이지가 있을 때만 네비게이션 표시
+                                    if (pageNavigation) pageNavigation.style.setProperty('display', 'flex', 'important');
+                                    if (currentPageSpan) currentPageSpan.textContent = liCurrentPage.toString();
+                                    if (totalPagesSpan) totalPagesSpan.textContent = liMaxPages.toString();
+                                    if (prevBtn) prevBtn.disabled = liCurrentPage === 1;
+                                    if (nextBtn) nextBtn.disabled = liCurrentPage === liMaxPages;
+                                    console.log(`LI 탭 - 페이지 ${liCurrentPage}/${liMaxPages} 표시`);
+                                } else {
+                                    // LI 탭에 페이지가 1개뿐일 때는 네비게이션 숨김
+                                    if (pageNavigation) {
+                                        pageNavigation.style.setProperty('display', 'none', 'important');
+                                        console.log('LI 탭 - 네비게이션 강제 숨김 적용됨');
+                                    }
+                                    console.log('LI 탭 - 페이지가 1개뿐이라 네비게이션 숨김');
+                                }
+                            } else {
+                                // Stats 탭의 페이지 정보 표시
+                                if (pageNavigation) pageNavigation.style.setProperty('display', 'flex', 'important');
+                                if (currentPageSpan) currentPageSpan.textContent = statsCurrentPage.toString();
+                                if (totalPagesSpan) totalPagesSpan.textContent = statsMaxPages.toString();
+                                if (prevBtn) prevBtn.disabled = statsCurrentPage === 1;
+                                if (nextBtn) nextBtn.disabled = statsCurrentPage === statsMaxPages;
+                                console.log(`Stats 탭 - 페이지 ${statsCurrentPage}/${statsMaxPages} 표시`);
+                            }
+                        };
+
+                        subStatsTabs.forEach(tab => {
+                            console.log('탭 이벤트 리스너 등록:', tab.dataset.tab);
+                            tab.addEventListener('click', () => {
+                                const tabType = tab.dataset.tab;
+                                console.log('🔲 탭 클릭:', tabType);
+                                
+                                // 패널이 닫혀있으면 열기
+                                if (!isPanelOpen) {
+                                    subStatsPanel.classList.add('show');
+                                    isPanelOpen = true;
+                                    console.log('  ⬅️ 패널 열기');
+                                    
+                                    // 클릭한 탭 활성화
+                                    subStatsTabs.forEach(t => t.classList.remove('active'));
+                                    tab.classList.add('active');
+                                    currentActiveTab = tabType;
+                                    
+                                    // 페이지 및 네비게이션 전환
+                                    if (tabType === 'li') {
+                                        // Stats 페이지 숨기기
+                                        if (page1) page1.classList.remove('active');
+                                        if (page2) page2.classList.remove('active');
+                                        // LI 페이지 표시
+                                        if (pageLI) {
+                                            pageLI.classList.add('show-li');
+                                            pageLI.style.display = 'block';
+                                        }
+                                        // 네비게이션 업데이트 - 중요!
+                                        updateNavigation('li');
+                                        console.log('  📍 LI 탭으로 전환 완료');
+                                    } else {
+                                        // LI 페이지 숨기기
+                                        if (pageLI) {
+                                            pageLI.classList.remove('show-li');
+                                            pageLI.style.display = 'none';
+                                        }
+                                        // Stats 페이지 표시
+                                        if (page1) page1.classList.add('active');
+                                        if (page2) page2.classList.remove('active');
+                                        statsCurrentPage = 1;
+                                        // 네비게이션 업데이트
+                                        updateNavigation('page1');
+                                        console.log('  📍 Stats 탭으로 전환 완료');
+                                    }
+                                    
+                                    // Stats 패널 애니메이션 (패널이 처음 열릴 때)
+                                    if (tabType !== 'li') {
+                                        setTimeout(() => {
+                                            console.log('  ⏱️ Stats 패널 열기 - 애니메이션 실행');
+                                            const activePages = subStatsPanel.querySelector('.sub-stats-pages.active');
+                                            if (activePages) {
+                                                animateSubStatGauges(activePages, 100, 'panel-open');
+                                            }
+                                        }, 400);
+                                    }
+                                } else {
+                                    // 같은 탭을 클릭하면 패널 닫기
+                                    if (tab.classList.contains('active')) {
+                                        subStatsPanel.classList.remove('show');
+                                        tab.classList.remove('active');
+                                        isPanelOpen = false;
+                                        currentActiveTab = null;
+                                        console.log('  ➡️ 패널 닫기');
+                                    } else {
+                                        // 다른 탭으로 전환
+                                        subStatsTabs.forEach(t => t.classList.remove('active'));
+                                        tab.classList.add('active');
+                                        currentActiveTab = tabType;
+                                        console.log('  🔄 탭 전환');
+                                        
+                                        // 페이지 및 네비게이션 전환
+                                        if (tabType === 'li') {
+                                            // Stats 페이지 숨기기
+                                            if (page1) page1.classList.remove('active');
+                                            if (page2) page2.classList.remove('active');
+                                            // LI 페이지 표시
+                                            if (pageLI) {
+                                                pageLI.classList.add('show-li');
+                                                pageLI.style.display = 'block';
+                                            }
+                                            // 네비게이션 업데이트
+                                            updateNavigation('li');
+                                            console.log('  🔄 LI 탭으로 전환 완료');
+                                        } else {
+                                            // LI 페이지 숨기기
+                                            if (pageLI) {
+                                                pageLI.classList.remove('show-li');
+                                                pageLI.style.display = 'none';
+                                            }
+                                            // Stats 페이지 표시
+                                            if (page1) page1.classList.add('active');
+                                            if (page2) page2.classList.remove('active');
+                                            statsCurrentPage = 1;  // currentPage 대신 statsCurrentPage
+                                            // 네비게이션 업데이트
+                                            updateNavigation('page1');
+                                            
+                                            // Stats 탭 전환 시에도 애니메이션 실행
+                                            setTimeout(() => {
+                                                console.log('  🎬 탭 전환 - Stats 애니메이션 실행');
+                                                const activePages = subStatsPanel.querySelector('.sub-stats-pages.active');
+                                                if (activePages) {
+                                                    animateSubStatGauges(activePages, 100, 'tab-switch');
+                                                }
+                                            }, 100);
+                                            
+                                            console.log('  🔄 Stats 탭으로 전환 완료');
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                        
+                        function updatePage(source = 'unknown') {
+                            console.log(`📄 updatePage 호출 - source: ${source}`);
+                            
+                            // 현재 어떤 탭이 활성화되어 있는지 확인
+                            const activeTab = document.querySelector('.sub-stats-toggle.active');
+                            if (!activeTab) return;
+                            
+                            const isLITab = activeTab.dataset.tab === 'li';
+                            
+                            if (isLITab) {
+                                // LI 탭은 페이지가 1개뿐
+                                return;
+                            }
+                            
+                            // Stats 페이지 처리
+                            const page1 = document.getElementById('page-1');
+                            const page2 = document.getElementById('page-2');
+                            
+                            if (statsCurrentPage === 1) {
+                                page1.classList.add('active');
+                                page2.classList.remove('active');
+                            } else {
+                                page1.classList.remove('active');
+                                page2.classList.add('active');
+                            }
+                            
+                            // 애니메이션 - source가 'initial'이 아닌 경우 항상 애니메이션 실행
+                            if (source !== 'initial') {
+                                console.log(`  🎬 게이지 애니메이션 실행 - 페이지: ${statsCurrentPage}`);
+                                const activePage = statsCurrentPage === 1 ? page1 : page2;
+                                const fills = activePage.querySelectorAll('.sub-stat-fill');
+                                fills.forEach((fill, index) => {
+                                    const targetWidth = fill.dataset.target || fill.style.width;
+                                    console.log(`    📊 게이지 ${index}: 목표 = ${targetWidth}`);
+                                    fill.style.width = '0';
+                                    fill.classList.add('animating');
+                                    setTimeout(() => {
+                                        fill.style.width = targetWidth;
+                                        setTimeout(() => {
+                                            fill.classList.remove('animating');
+                                        }, 600);
+                                    }, 100);
+                                });
+                            }
+                            
+                            currentPageSpan.textContent = statsCurrentPage;
+                            prevBtn.disabled = statsCurrentPage === 1;
+                            nextBtn.disabled = statsCurrentPage === 2;
+                        }
+
+                        if (prevBtn && nextBtn) {
+                            prevBtn.addEventListener('click', () => {
+                                const activeTab = document.querySelector('.sub-stats-toggle.active');
+                                if (activeTab && activeTab.dataset.tab === 'li') return; // LI 탭에서는 동작 안함
+                                
+                                if (statsCurrentPage > 1) {
+                                    statsCurrentPage--;
+                                    updatePage('prev-btn');
+                                }
+                            });
+
+                            nextBtn.addEventListener('click', () => {
+                                const activeTab = document.querySelector('.sub-stats-toggle.active');
+                                if (activeTab && activeTab.dataset.tab === 'li') return; // LI 탭에서는 동작 안함
+                                
+                                if (statsCurrentPage < 2) {
+                                    statsCurrentPage++;
+                                    updatePage('next-btn');
+                                }
+                            });
+
+                            updatePage('initial');
+                        }
+                    }
+                },
+
+                // 스탠드 패널 초기화
+                initStandPanel: function() {
+                    const standToggle = document.querySelector('.char-stat-widget .stand-toggle');
+                    const standPanel = document.querySelector('.char-stat-widget .stand-panel');
+                    const prevBtn = standPanel?.querySelector('.nav-btn.prev');
+                    const nextBtn = standPanel?.querySelector('.nav-btn.next');
+                    const nameDisplay = document.getElementById('stand-current-name');
+                    
+                    // 캐릭터 데이터
+                    const characterImages = [
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%9B%83%EC%9D%8C.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%8A%AC%ED%94%94.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A9.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A91.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A92.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A93.gif',
+                        'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%B6%80%EB%81%84%EB%9F%AC%EC%9B%80.gif'
+                    ];
+                    
+                    const characterNames = ['기본', '웃음', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
+                    let currentIndex = 0;
+                    
+                    // 캐릭터 변경 함수
+                    const changeCharacter = (direction) => {
+                        if (direction === 'prev') {
+                            currentIndex = currentIndex === 0 ? characterImages.length - 1 : currentIndex - 1;
+                        } else if (direction === 'next') {
+                            currentIndex = currentIndex === characterImages.length - 1 ? 0 : currentIndex + 1;
+                        }
+                        
+                        const characterLayer = document.getElementById('character-layer');
+                        if (characterLayer) {
+                            characterLayer.src = characterImages[currentIndex];
+                        }
+                        
+                        if (nameDisplay) {
+                            nameDisplay.textContent = characterNames[currentIndex];
+                        }
+                    };
+                    
+                    // 패널 토글
+                    if (standToggle && standPanel) {
+                        standToggle.addEventListener('click', () => {
+                            const isOpen = standPanel.classList.contains('show');
+                            
+                            if (isOpen) {
+                                standPanel.classList.remove('show');
+                                standToggle.classList.remove('active');
+                                standToggle.innerHTML = 'Stand';
+                            } else {
+                                standPanel.classList.add('show');
+                                standToggle.classList.add('active');
+                                standToggle.innerHTML = 'Stand';
+                            }
+                        });
+                    }
+                    
+                    // 네비게이션 버튼
+                    if (prevBtn) {
+                        prevBtn.addEventListener('click', () => changeCharacter('prev'));
+                    }
+                    
+                    if (nextBtn) {
+                        nextBtn.addEventListener('click', () => changeCharacter('next'));
+                    }
+                },
+
+                updateStatDescriptions: function() {
+                    this.iconItems.forEach(icon => {
+                        const statType = icon.dataset.icon;
+                        const currentValue = parseInt(icon.querySelector('.stat-current').textContent);
+                        const gaugeTextBase = icon.querySelector('.gauge-text-base');
+                        const gaugeTextClipped = icon.querySelector('.gauge-fill .gauge-text-clipped');
+                        
+                        if (this.statDescriptions[statType] && this.statDescriptions[statType][currentValue]) {
+                            const description = this.statDescriptions[statType][currentValue];
+                            if (gaugeTextBase) gaugeTextBase.textContent = description;
+                            if (gaugeTextClipped) gaugeTextClipped.textContent = description;
+                        }
+                    });
+                },
+
+                updateSingleStatDescription: function(iconElement) {
+                    const statType = iconElement.dataset.icon;
+                    const currentValue = parseInt(iconElement.querySelector('.stat-current').textContent);
+                    const gaugeTextBase = iconElement.querySelector('.gauge-text-base');
+                    const gaugeTextClipped = iconElement.querySelector('.gauge-fill .gauge-text-clipped');
+                    
+                    if (this.statDescriptions[statType] && this.statDescriptions[statType][currentValue]) {
+                        const description = this.statDescriptions[statType][currentValue];
+                        if (gaugeTextBase) gaugeTextBase.textContent = description;
+                        if (gaugeTextClipped) gaugeTextClipped.textContent = description;
+                    }
+                },
+
+                handleResize: function() {
+                    window.addEventListener('resize', () => {
+                        this.resetAllStates();
+                    });
+                },
+
+                clearTimeouts: function() {
+                    this.animationTimeouts.forEach(id => clearTimeout(id));
+                    this.animationTimeouts = [];
+                },
+
+                toggleMarkerPositions: function() {
+                    this.showingPositions = !this.showingPositions;
+                    
+                    if (this.showingPositions) {
+                        this.silhouetteImage.classList.add('show');
+                        this.markers.forEach(marker => {
+                            marker.classList.add('show-position');
+                        });
+                    } else {
+                        this.silhouetteImage.classList.remove('show');
+                        this.markers.forEach(marker => {
+                            marker.classList.remove('show-position');
+                        });
+                    }
+                },
+
+                hideMarkerPositions: function() {
+                    if (this.showingPositions) {
+                        this.showingPositions = false;
+                        this.silhouetteImage.classList.remove('show');
+                        this.markers.forEach(marker => {
+                            marker.classList.remove('show-position');
+                        });
+                    }
+                },
+
+                toggleIconActive: function(iconElement) {
+                    // 현재 아이콘만 토글 (다른 아이콘은 그대로 둠)
+                    if (iconElement.classList.contains('active')) {
+                        // 이미 활성화된 아이콘을 다시 클릭하면 닫기
+                        iconElement.classList.remove('active');
+                        this.resetGauge(iconElement, false);
+                    } else {
+                        // 비활성화된 아이콘을 클릭하면 열기
+                        iconElement.classList.add('active');
+                        this.updateSingleStatDescription(iconElement);
+                        this.animateGauge(iconElement);
+                    }
+                },
+
+                getStatColor: function(statType, currentValue) {
+                    const colorMaps = {
+                        'promiscuity': {
+                            0: '#3EB216', 1: '#21c1c0', 2: '#5a9bbf', 3: '#4c71fd',
+                            4: '#a94ac7', 5: '#e10583', 6: '#e8373d'
+                        },
+                        'exhibitionism': {
+                            0: '#3EB216', 1: '#21c1c0', 2: '#5a9bbf', 3: '#4c71fd',
+                            4: '#a94ac7', 5: '#e10583', 6: '#e8373d'
+                        },
+                        'deviancy': {
+                            0: '#3EB216', 1: '#21c1c0', 2: '#5a9bbf', 3: '#4c71fd',
+                            4: '#a94ac7', 5: '#e10583', 6: '#e8373d'
+                        },
+                        'purity': {
+                            0: '#e8373d', 1: '#da373d', 2: '#e10583', 3: '#a94ac7',
+                            4: '#4c71fd', 5: '#5a9bbf', 6: '#21c1c0', 7: '#3EB216'
+                        },
+                        'physique': {
+                            0: '#e8373d', 1: '#e10583', 2: '#a94ac7', 3: '#4c71fd',
+                            4: '#5a9bbf', 5: '#21c1c0', 6: '#3EB216'
+                        },
+                        'willpower': {
+                            0: '#e8373d', 1: '#e10583', 2: '#a94ac7', 3: '#4c71fd',
+                            4: '#5a9bbf', 5: '#21c1c0', 6: '#3EB216'
+                        },
+                        'beauty': {
+                            0: '#e8373d', 1: '#e10583', 2: '#a94ac7', 3: '#4c71fd',
+                            4: '#5a9bbf', 5: '#21c1c0', 6: '#3EB216'
+                        },
+                        'awareness': {
+                            0: '#3eb216', 1: '#29c1c0', 2: '#5a9bbf', 3: '#4c71fd',
+                            4: '#a94ac7', 5: '#e10583', 6: '#e83734', 7: '#e8373d'
+                        }
+                    };
+
+                    return colorMaps[statType] && colorMaps[statType][currentValue] ? 
+                           colorMaps[statType][currentValue] : '#ea76cb';
+                },
+
+                animateGauge: function(iconElement) {
+                    const gaugeContainer = iconElement.querySelector('.segment-gauge-container');
+                    const gaugeFill = iconElement.querySelector('.gauge-fill');
+                    const gaugeTextBase = iconElement.querySelector('.gauge-text-base');
+                    const statCurrent = iconElement.querySelector('.stat-current');
+                    const statTitle = iconElement.querySelector('.icon-stat-title');
+                    
+                    if (gaugeContainer && gaugeFill) {
+                        const currentValue = parseInt(statCurrent.textContent);
+                        const maxValue = parseInt(iconElement.querySelector('.stat-max').textContent);
+                        const percentage = (currentValue / maxValue) * 100;
+                        const iconType = iconElement.dataset.icon;
+                        
+                        const statColor = this.getStatColor(iconType, currentValue);
+                        
+                        const containerRect = gaugeContainer.getBoundingClientRect();
+                        const containerWidth = containerRect.width;
+                        const targetPixels = containerWidth * percentage / 100;
+                        
+                        gaugeFill.style.setProperty('width', '0px', 'important');
+                        gaugeFill.style.setProperty('background', statColor, 'important');
+                        gaugeFill.style.setProperty('--container-width', containerWidth + 'px');
+                        
+                        if (gaugeTextBase) {
+                            gaugeTextBase.style.setProperty('color', statColor, 'important');
+                        }
+                        if (statCurrent) {
+                            statCurrent.style.setProperty('color', statColor, 'important');
+                        }
+                        if (statTitle) {
+                            statTitle.style.setProperty('color', statColor, 'important');
+                        }
+                        
+                        gaugeFill.offsetWidth;
+                        
+                        setTimeout(() => {
+                            gaugeFill.style.setProperty('width', targetPixels + 'px', 'important');
+                        }, 100);
+                    }
+                },
+
+                resetGauge: function(iconElement, resetColor = false) {
+                    const gaugeFill = iconElement.querySelector('.gauge-fill');
+                    const gaugeTextBase = iconElement.querySelector('.gauge-text-base');
+                    const statCurrent = iconElement.querySelector('.stat-current');
+                    const statTitle = iconElement.querySelector('.icon-stat-title');
+                    
+                    if (gaugeFill) {
+                        gaugeFill.style.setProperty('width', '0px', 'important');
+                        if (resetColor) {
+                            gaugeFill.style.setProperty('background', '#ea76cb', 'important');
+                        }
+                    }
+                    
+                    if (resetColor) {
+                        if (gaugeTextBase) {
+                            gaugeTextBase.style.setProperty('color', '#ea76cb', 'important');
+                        }
+                        if (statCurrent) {
+                            statCurrent.style.setProperty('color', '#ea76cb', 'important');
+                        }
+                        if (statTitle) {
+                            statTitle.style.setProperty('color', '#ea76cb', 'important');
+                        }
+                    }
+                },
+
+                resetAllStates: function() {
+                    this.clearTimeouts();
+                    
+                    this.markers.forEach(marker => {
+                        marker.classList.remove('active');
+                    });
+                    
+                    this.statContainers.forEach(container => {
+                        container.classList.remove('show');
+                        container.style.transition = 'none';
+                        const statTexts = container.querySelectorAll('.stat-text');
+                        statTexts.forEach(text => {
+                            text.classList.remove('show');
+                            text.style.transition = 'none';
+                        });
+                        container.offsetHeight;
+                        setTimeout(() => {
+                            container.style.transition = '';
+                            statTexts.forEach(text => {
+                                text.style.transition = '';
+                            });
+                        }, 10);
+                    });
+                    
+                    this.lines.forEach(line => {
+                        line.classList.remove('show');
+                        const path = line.querySelector('.connection-path');
+                        const endPoint = line.querySelector('.end-point');
+                        
+                        path.style.transition = 'none';
+                        path.style.strokeDashoffset = '';
+                        path.style.strokeDasharray = '';
+                        endPoint.classList.remove('show');
+                        endPoint.style.transition = 'none';
+                        
+                        path.offsetHeight;
+                        setTimeout(() => {
+                            path.style.transition = '';
+                            endPoint.style.transition = '';
+                        }, 10);
+                    });
+                    
+                    this.activeMarker = null;
+                    this.activeStatContainer = null;
+                    this.activeLine = null;
+                },
+
+                drawLine: function(marker, statContainer, line) {
+                    const path = line.querySelector('.connection-path');
+                    const endPoint = line.querySelector('.end-point');
+                    
+                    path.style.transition = 'none';
+                    path.style.strokeDashoffset = '';
+                    path.style.strokeDasharray = '';
+                    path.offsetHeight;
+                    
+                    const markerRect = marker.getBoundingClientRect();
+                    const containerRect = document.querySelector('.char-stat-widget .character-container').getBoundingClientRect();
+
+                    const markerCenterX = markerRect.left + markerRect.width / 2 - containerRect.left;
+                    const markerCenterY = markerRect.top + markerRect.height / 2 - containerRect.top;
+                    
+                    const statType = marker.dataset.stat;
+                    const statData = this.getStatData(statType);
+                    
+                    const isLeftSide = ['anal', 'thighs', 'hands'].includes(statType);
+                    const direction = isLeftSide ? -1 : 1;
+                    
+                    const containerWidth = containerRect.width;
+                    const firstHorizontal = Math.max(30, containerWidth * 0.1);
+                    const diagonalDistance = Math.max(8, containerWidth * 0.02);
+                    const finalHorizontalLength = Math.max(80, containerWidth * 0.25);
+                    
+                    const startX = markerCenterX;
+                    const startY = markerCenterY;
+                    const point1X = startX + (firstHorizontal * direction);
+                    const point1Y = startY;
+                    const point2X = point1X + (diagonalDistance * direction);
+                    const point2Y = point1Y + (diagonalDistance * (isLeftSide ? -1 : 1));
+                    const endX = point2X + (finalHorizontalLength * direction);
+                    const endY = point2Y;
+                    
+                    const pathData = `M ${startX} ${startY} L ${point1X} ${point1Y} L ${point2X} ${point2Y} L ${endX} ${endY}`;
+                    
+                    path.setAttribute('d', pathData);
+                    
+                    const totalLength = path.getTotalLength();
+                    path.style.strokeDasharray = totalLength;
+                    path.style.strokeDashoffset = totalLength;
+                    
+                    endPoint.setAttribute('cx', endX);
+                    endPoint.setAttribute('cy', endY);
+                    
+                    statContainer.style.top = (endY - 25) + 'px';
+                    
+                    if (isLeftSide) {
+                        statContainer.style.left = endX + 'px';
+                        statContainer.style.textAlign = 'left';
+                    } else {
+                        statContainer.style.right = (document.querySelector('.char-stat-widget .character-container').offsetWidth - endX) + 'px';
+                        statContainer.style.left = 'auto';
+                        statContainer.style.textAlign = 'right';
+                    }
+                    
+                    statContainer.innerHTML = '';
+                    
+                    statData.forEach((stat, index) => {
+                        const statElement = document.createElement('div');
+                        statElement.className = 'stat-text';
+                        
+                        const percentageText = stat.percentage !== '' ? ` <span class="stat-percentage">${stat.percentage}%</span>` : '';
+                        const gradeClass = stat.grade.toLowerCase() === 'none' ? 'stat-grade none' : 'stat-grade';
+                        
+                        statElement.innerHTML = `${stat.name} <span class="${gradeClass}">${stat.grade}</span>${percentageText}`;
+                        statContainer.appendChild(statElement);
+                    });
+                    
+                    requestAnimationFrame(() => {
+                        path.style.transition = `stroke-dashoffset 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+                        path.style.strokeDashoffset = '0';
+                        
+                        const timeout = setTimeout(() => {
+                            if (line.classList.contains('show')) {
+                                endPoint.classList.add('show');
+                                statContainer.classList.add('show');
+                                
+                                const statTexts = statContainer.querySelectorAll('.stat-text');
+                                statTexts.forEach((text, index) => {
+                                    const textTimeout = setTimeout(() => {
+                                        if (statContainer.classList.contains('show')) {
+                                            text.classList.add('show');
+                                        }
+                                    }, index * 80);
+                                    this.animationTimeouts.push(textTimeout);
+                                });
+                            }
+                        }, 400);
+                        this.animationTimeouts.push(timeout);
+                    });
+                },
+
+                getStatData: function(statType) {
+                    const statDataMap = {
+                        'seduction': [{ name: '유혹', grade: 'S', percentage: 85 }],
+                        'chest': [{ name: '가슴', grade: 'A', percentage: 72 }],
+                        'buttocks': [{ name: '엉덩이', grade: 'F', percentage: 18 }],
+                        'vaginal': [{ name: '질', grade: 'None', percentage: '' }],
+                        'thighs': [{ name: '허벅지', grade: 'F', percentage: 12 }],
+                        'oral': [{ name: '입', grade: 'S', percentage: 79 }],
+                        'hands': [{ name: '손', grade: 'A', percentage: 94 }],
+                        'anal': [{ name: '애널', grade: 'None', percentage: '' }],
+                        'feet': [{ name: '발', grade: 'F', percentage: 36 }]
+                    };
+                    return statDataMap[statType] || [];
+                },
+
+                bindEvents: function() {
+                    let hoverDebounceTimer = null;
+                    let isAnimating = false;
+                    let pendingMarker = null;
+
+                    this.characterImage.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleMarkerPositions();
+                    });
+
+                    this.iconItems.forEach(icon => {
+                        icon.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.toggleIconActive(icon);
+                        });
+                    });
+
+                    this.markers.forEach(marker => {
+                        marker.addEventListener('mouseenter', () => {
+                            const statType = marker.dataset.stat;
+                            const statContainer = document.getElementById(`stat-${statType}`);
+                            const line = document.getElementById(`line-${statType}`);
+
+                            if (this.activeMarker === marker) return;
+
+                            if (hoverDebounceTimer) {
+                                clearTimeout(hoverDebounceTimer);
+                                hoverDebounceTimer = null;
+                            }
+
+                            if (isAnimating) {
+                                pendingMarker = marker;
+                                return;
+                            }
+
+                            hoverDebounceTimer = setTimeout(() => {
+                                isAnimating = true;
+                                
+                                this.hideMarkerPositions();
+                                this.resetAllStates();
+
+                                this.activeMarker = marker;
+                                this.activeStatContainer = statContainer;
+                                this.activeLine = line;
+
+                                line.classList.add('show');
+                                this.drawLine(marker, statContainer, line);
+
+                                setTimeout(() => {
+                                    isAnimating = false;
+                                    
+                                    if (pendingMarker && pendingMarker !== marker) {
+                                        const nextMarker = pendingMarker;
+                                        pendingMarker = null;
+                                        nextMarker.dispatchEvent(new MouseEvent('mouseenter'));
+                                    }
+                                }, 300);
+                            }, 80);
+                        });
+
+                        marker.addEventListener('mouseleave', () => {
+                            if (hoverDebounceTimer) {
+                                clearTimeout(hoverDebounceTimer);
+                                hoverDebounceTimer = null;
+                            }
+
+                            if (pendingMarker === marker) {
+                                pendingMarker = null;
+                            }
+
+                            const timeout = setTimeout(() => {
+                                if (!marker.matches(':hover') && 
+                                    !(this.activeStatContainer && this.activeStatContainer.matches(':hover'))) {
+                                    this.resetAllStates();
+                                    isAnimating = false;
+                                }
+                            }, 100);
+                            this.animationTimeouts.push(timeout);
+                        });
+                    });
+
+                    this.statContainers.forEach(container => {
+                        container.addEventListener('mouseleave', () => {
+                            const correspondingMarker = document.querySelector(`.char-stat-widget [data-stat="${container.id.replace('stat-', '')}"]`);
+                            
+                            const timeout = setTimeout(() => {
+                                if (!correspondingMarker?.matches(':hover') && !container.matches(':hover')) {
+                                    this.resetAllStates();
+                                    isAnimating = false;
+                                }
+                            }, 100);
+                            this.animationTimeouts.push(timeout);
+                        });
+                    });
+                }
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => CharStatWidget.init());
+            } else {
+                CharStatWidget.init();
+            }
+        })();
+    </script>
+</body>
+</html>
+<!-- 아메 스탯창 끝 -->
