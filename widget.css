@@ -162,6 +162,11 @@
     background-repeat: no-repeat !important;
     background-position: center !important;
 }
+.char-stat-widget .bg-image {
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
 
 .char-stat-widget .character {
     width: 100% !important;
@@ -233,34 +238,58 @@
 /* 개별 아이콘 배경 이미지 */
 .char-stat-widget .icon-purity {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Purity.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-beauty {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Beauty.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-physique {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Physique.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-willpower {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Willpower.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-awareness {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Awareness.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-promiscuity {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Promiscuity.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-exhibitionism {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Exhibitionism.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 .char-stat-widget .icon-deviancy {
     background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Deviancy.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 
 /* 아이콘 스탯 패널 */
