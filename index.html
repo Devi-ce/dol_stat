@@ -7,6 +7,29 @@
     <title>캐릭터 스탯창</title>
     <link rel="stylesheet" href="https://use.typekit.net/wpt3hjn.css">
     <style>
+
+        /* 기본 body 스타일 - 컨테이너 환경 대응 */
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* iframe 내부일 때 자동 감지 스타일 */
+        body.in-iframe {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.in-iframe .char-stat-widget {
+            width: 100%;
+            height: 100%;
+        }
+
+
         .char-stat-widget * {
             margin: 0;
             padding: 0;
