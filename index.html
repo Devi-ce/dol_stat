@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 스탯창</title>
+    
+    <!-- GitHub에서 CSS 로드 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devi-ce/dol_stat@main/widget.css">
+    
+    <!-- 폰트 로드 (CSS 파일에도 있지만 빠른 로딩을 위해 여기도 추가) -->
+    <link rel="stylesheet" href="https://use.typekit.net/wpt3hjn.css">
+</head>
+<body>
+    <!-- 아메 스탯창 -->
+    <div class="char-stat-widget">
+        <div class="container">
+            <!-- 캐릭터 정보 -->
+            <div class="character-info">
+                <div class="character-name">
+                    <!-- 캐릭터 이름 및 글자 색상 -->
+                    <span class="name-first-letter" style="color: #8a1def !important;">A</span><span class="name-rest">me</span>
+                </div>
+                <!-- 캐릭터 칭호 -->
+                <div class="character-title">The Smarter</div>
+            </div>
+
+            <!-- 부가 스탯 패널 -->
+            <div class="sub-stats-panel">
+                <div class="sub-stats-content">
+                    <!-- 페이지 1: 학업 -->
+                    <div class="sub-stats-pages active" id="page-1">
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/science.png')"></span>
+                            <span class="sub-stat-label">Science</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="98%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">98</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/math.png')"></span>
+                            <span class="sub-stat-label">Maths</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="96%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">96</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/english.png')"></span>
+                            <span class="sub-stat-label">English</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="95%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">95</span>
+                        </div>
+                        <div class="sub-stat-item">
+                            <span class="sub-stat-icon" style="background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/history.png')"></span>
+                            <span class="sub-stat-label">History</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="91%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-astar">A*</span>
+                            <span class="sub-stat-value">91</span>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 2: 활동 -->
+                    <div class="sub-stats-pages" id="page-2">
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Skulduggery</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="7%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-f">F</span>
+                            <span class="sub-stat-value">7</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Dancing</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="78%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-a">A+</span>
+                            <span class="sub-stat-value">78</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Swimming</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="63%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-a">A</span>
+                            <span class="sub-stat-value">63</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Athletics</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="98%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-b">B</span>
+                            <span class="sub-stat-value">98</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Tending</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="59%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-b">B+</span>
+                            <span class="sub-stat-value">59</span>
+                        </div>
+                        <div class="sub-stat-item no-icon">
+                            <span class="sub-stat-label">Housekeeping</span>
+                            <div class="sub-stat-bar">
+                                <div class="sub-stat-fill" style="width: 0" data-target="100%"></div>
+                            </div>
+                            <span class="sub-stat-grade grade-s">S</span>
+                            <span class="sub-stat-value">100</span>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 3: 호감도 (LI) - 초기에는 숨김 -->
+                    <div class="sub-stats-pages" id="page-li" style="display: none;">
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Robin</span>
+                                    <span class="npc-gender" data-gender="female">♀</span>
+                                    <span class="npc-title">the orphan</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Robin</span>
+                                <span class="npc-sentence" data-character="robin">thinks you're their best friend.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Whitney</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the bully</span>
+                                </div>
+                                <span class="npc-status">Lovers</span>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Whitney</span>
+                                <span class="npc-sentence" data-character="whitney">owns you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Sydney</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the faithful</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Sydney</span>
+                                <span class="npc-sentence" data-character="sydney">is very fond of you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Kylar</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the loner</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Kylar</span>
+                                <span class="npc-sentence" data-character="kylar">is obsessed with you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Avery</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the businessman</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Avery</span>
+                                <span class="npc-sentence" data-character="avery">prizes you.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Alex</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the farmhand</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Alex</span>
+                                <span class="npc-sentence" data-character="alex">can't be more grateful.</span>
+                            </div>
+                        </div>
+                        <div class="npc-item">
+                            <div class="npc-header">
+                                <div class="npc-name-container">
+                                    <span class="npc-name">Eden</span>
+                                    <span class="npc-gender" data-gender="male">♂</span>
+                                    <span class="npc-title">the hunter</span>
+                                </div>
+                            </div>
+                            <div class="npc-description">
+                                <span class="npc-char-name">Eden</span>
+                                <span class="npc-sentence" data-character="eden">has no strong opinion of you.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 페이지 네비게이션 (통합) -->
+                    <div class="page-navigation" id="page-navigation">
+                        <button class="page-btn" id="prev-btn">◀</button>
+                        <span class="page-indicator">Page <span id="current-page">1</span> / <span id="total-pages">2</span></span>
+                        <button class="page-btn" id="next-btn">▶</button>
+                    </div>
+                </div>
+                <div class="sub-stats-toggle-wrapper">
+                    <button class="sub-stats-toggle" data-tab="page1">Stats</button>
+                    <button class="sub-stats-toggle" data-tab="li">LI</button>
+                </div>
+            </div>
+
+            <!-- 스탠드 패널 -->
+            <div class="stand-panel">
+                <div class="stand-toggle-wrapper">
+                    <button class="stand-toggle">Stand</button>
+                </div>
+                <div class="stand-content">
+                    <!-- 스탠드 위젯 -->
+                    <div class="stand-widget" id="characterStand">
+                        <div class="display-area">
+                            <!-- 배경 레이어 -->
+                            <img id="background-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%B0%B0%EA%B2%BD.png" 
+                                 alt="배경">
+                            
+                            <!-- 캐릭터 레이어 -->
+                            <img id="character-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif"
+                                 alt="캐릭터">
+                            
+                            <!-- 프레임 레이어 -->
+                            <img id="frame-layer" class="layer" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%ED%94%84%EB%A0%88%EC%9E%84.png" 
+                                 alt="프레임">
+                            
+                            <!-- 좌우 네비게이션 버튼 -->
+                            <img class="nav-btn prev" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/prev.png" 
+                                 alt="이전">
+                            <img class="nav-btn next" 
+                                 src="https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/next.png" 
+                                 alt="다음">
+                        </div>
+                    </div>
+                    <!-- 캐릭터 이름 표시 -->
+                    <div class="stand-info">
+                        <span class="stand-name" id="stand-current-name">기본</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-container">
+                <div class="character-silhouette bg-image"></div>
+                <div class="character bg-image"></div>
+
+                <!-- 부위 마커들 -->
+                <div class="body-part seduction-marker" data-stat="seduction"></div>
+                <div class="body-part chest-marker" data-stat="chest"></div>
+                <div class="body-part buttocks-marker" data-stat="buttocks"></div>
+                <div class="body-part vaginal-marker" data-stat="vaginal"></div>
+                <div class="body-part thighs-marker" data-stat="thighs"></div>
+                <div class="body-part oral-marker" data-stat="oral"></div>
+                <div class="body-part hands-marker" data-stat="hands"></div>
+                <div class="body-part anal-marker" data-stat="anal"></div>
+                <div class="body-part feet-marker" data-stat="feet"></div>
+
+                <!-- 스탯 텍스트 컨테이너들 -->
+                <div class="stat-text-container" id="stat-seduction"></div>
+                <div class="stat-text-container" id="stat-chest"></div>
+                <div class="stat-text-container" id="stat-buttocks"></div>
+                <div class="stat-text-container" id="stat-vaginal"></div>
+                <div class="stat-text-container" id="stat-thighs"></div>
+                <div class="stat-text-container" id="stat-oral"></div>
+                <div class="stat-text-container" id="stat-hands"></div>
+                <div class="stat-text-container" id="stat-anal"></div>
+                <div class="stat-text-container" id="stat-feet"></div>
+
+                <!-- 연결선들 -->
+                <div class="connection-line" id="line-seduction">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-chest">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-buttocks">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-vaginal">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-thighs">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-oral">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-hands">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-anal">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+                <div class="connection-line" id="line-feet">
+                    <svg><path class="connection-path"></path><circle class="end-point"></circle></svg>
+                </div>
+            </div>
+
+            <!-- 아이콘 패널 -->
+            <div class="icon-panel">
+                <div class="icon-item icon-purity bg-image" data-icon="purity">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">7</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">7</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You feel somewhat defiled.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You feel somewhat defiled.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Purity</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-beauty bg-image" data-icon="beauty">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">6</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are ravishing.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are ravishing.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Beauty</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-physique bg-image" data-icon="physique">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">2</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">Your body is slim and athletic.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">Your body is slim and athletic.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Physique</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-willpower bg-image" data-icon="willpower">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">5</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are mindful.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are mindful.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Willpower</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-awareness bg-image" data-icon="awareness">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">3</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">7</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You are almost entirely innocent.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You are almost entirely innocent.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Awareness</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-promiscuity bg-image" data-icon="promiscuity">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">1</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You crave sexual contact.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You crave sexual contact.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Promiscuity</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-exhibitionism bg-image" data-icon="exhibitionism">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">0</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">You enjoy lewd attention.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">You enjoy lewd attention.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Exhibitionism</div>
+                    </div>
+                </div>
+                <div class="icon-item icon-deviancy bg-image" data-icon="deviancy">
+                    <div class="icon-stat-panel">
+                        <div class="stat-value-display">
+                            <span class="stat-current">0</span>
+                            <span class="stat-separator">/</span>
+                            <span class="stat-max">6</span>
+                        </div>
+                        <div class="segment-gauge-container">
+                            <div class="gauge-text-base">Your tastes are strange.</div>
+                            <div class="gauge-fill">
+                                <div class="gauge-text-clipped">Your tastes are strange.</div>
+                            </div>
+                        </div>
+                        <div class="icon-stat-title">Deviancy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 캐릭터 설명 -->
+            <div class="character-description">
+                <div class="description-line">You are an angel girl.</div>
+                <div class="description-line">You are of average height. You have purple eyes. You have a light skin colour.</div>
+                <div class="description-line">You have huge breasts. You have a plump ass. You have a vagina.</div>
+                <div class="description-line">When left natural, your very long black hair reaches your thighs,</div>
+                <div class="description-line">and your fringe is short.</div>
+            </div>
+
+            <!-- 워터마크 -->
+            <a href="https://twilight-light.tistory.com/" target="_blank" class="watermark">© 2025 Device.</a>
+        </div>
+    </div>
+
+    <!-- GitHub에서 JavaScript 로드 -->
+    <script src="https://cdn.jsdelivr.net/gh/devi-ce/dol_stat@main/widget.js"></script>
+</body>
