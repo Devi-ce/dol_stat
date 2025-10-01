@@ -408,7 +408,7 @@
                 'https://raw.githubusercontent.com/Devi-ce/tistory/main/부끄러움.gif'
             ];
                 
-            const characterNames = ['기본', '웃음', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
+            const characterNames = ['기본', '기쁨', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
             let currentIndex = 0;
             
             // 캐릭터 변경 함수
