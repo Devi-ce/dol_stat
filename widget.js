@@ -398,16 +398,16 @@
             
             // 캐릭터 데이터
             const characterImages = [
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%9B%83%EC%9D%8C.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%8A%AC%ED%94%94.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A9.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A91.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A92.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A93.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%B6%80%EB%81%84%EB%9F%AC%EC%9B%80.gif'
+                'https://blog.kakaocdn.net/dna/cBjeib/btsQJGQZvBd/AAAAAAAAAAAAAAAAAAAAAC6sAeZeZ2aMrCIG85-HQ5Hy9x9fRzV2GbToLoq6ujfm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=0psG74zerU9ZXr6VYxG8NpXLRkU%3D',
+                'https://blog.kakaocdn.net/dna/bdxd8l/btsQLNailgn/AAAAAAAAAAAAAAAAAAAAAPW0K55RHSAUVfykqrEAvHgRwyxRs4h7mjWdJQ8b1QAj/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=t290kOMp4%2FjlD9qzPCvUwuJCiA8%3D',
+                'https://blog.kakaocdn.net/dna/ef8TGK/btsQI9y8IHH/AAAAAAAAAAAAAAAAAAAAADkySc4D3aXXD2qtK_95-IFqqwI7ZwYH5K7XoyAOSFZV/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=hlYyfXJ0nWZEkj8GTPOYeJ%2B0P0E%3D',
+                'https://blog.kakaocdn.net/dna/bcLdNO/btsQLchfmO4/AAAAAAAAAAAAAAAAAAAAANswe21eG5acrTjKmaarTW1HybjEiqqeIWmRUIIgj4oK/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=XmdR2AjiMKoDNYBdyqJlz2s1elo%3D',
+                'https://blog.kakaocdn.net/dna/bm41vY/btsQK6VIYqP/AAAAAAAAAAAAAAAAAAAAAOIHVLEraFv5-briokV9WXbL4Hk_S_bcrbvPArHoRgl0/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=jUK6nN%2BAyH6KLLZqtbni%2FtdfUac%3D',
+                'https://blog.kakaocdn.net/dna/vRIfq/btsQHX67pda/AAAAAAAAAAAAAAAAAAAAAGpod-NP_2NhWQNLV65eZTV1y2Fa9uIJtgKSsvtlem3A/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=wjpA%2B%2BO6gs7kZG%2Ff%2BS%2F3tsPbDC8%3D',
+                'https://blog.kakaocdn.net/dna/sBRqs/btsQK17ZjRE/AAAAAAAAAAAAAAAAAAAAADZ8nqFPLmkEqrzYoJW6imgGb6du7qD8RYVnD0rui0YM/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=55zBpQUx8yg5rml5Lj24cViTv%2BQ%3D',
+                'https://blog.kakaocdn.net/dna/bm3Aou/btsQKSQVmAb/AAAAAAAAAAAAAAAAAAAAAGAk8xLrTmgqa-7bpM4pIVewqKAlB5Gyqhxgo8pqHNn5/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1759244399&allow_ip=&allow_referer=&signature=KdlAiriWgrDkhdZTFuLoRjF%2FPNU%3D'
             ];
-            
+                
             const characterNames = ['기본', '웃음', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
             let currentIndex = 0;
             
