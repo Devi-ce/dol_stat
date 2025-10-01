@@ -1007,7 +1007,7 @@
             width: 270px !important;  /* 명시적 너비 설정 */
         }
 
-        /* 스탠드 위젯 스타일 */
+       /* 스탠드 위젯 스타일 - 원본 크기 유지 */
         .char-stat-widget .stand-widget {
             position: relative !important;
             display: inline-block !important;
@@ -1015,8 +1015,8 @@
 
         .char-stat-widget .stand-widget .display-area {
             position: relative !important;
-            width: auto !important;
-            height: auto !important;
+            width: auto !important;  /* 자동 너비 */
+            height: auto !important; /* 자동 높이 */
             display: inline-block !important;
         }
 
@@ -1025,14 +1025,13 @@
             top: 0 !important;
             left: 0 !important;
             display: block !important;
-            height: 350px !important;
-            width: auto !important;
-            object-fit: contain !important; 
+            height: auto !important;  /* 원본 높이 */
+            width: auto !important;   /* 원본 너비 */
         }
 
         .char-stat-widget .stand-widget #background-layer {
             z-index: 1 !important;
-            position: relative !important;
+            position: relative !important;  /* 이것만 relative로 기준점 설정 */
         }
 
         .char-stat-widget .stand-widget #character-layer {
