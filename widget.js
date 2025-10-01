@@ -396,19 +396,19 @@
             const nextBtn = standPanel?.querySelector('.nav-btn.next');
             const nameDisplay = document.getElementById('stand-current-name');
             
-            // 캐릭터 데이터 - GitHub 저장소 파일로 변경
+            // 캐릭터 데이터
             const characterImages = [
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/기본.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/웃음.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/슬픔.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황1.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황2.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황3.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/부끄러움.gif'
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%9B%83%EC%9D%8C.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%8A%AC%ED%94%94.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A9.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A91.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A92.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A93.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%B6%80%EB%81%84%EB%9F%AC%EC%9B%80.gif'
             ];
             
-            const characterNames = ['기본', '웃음', '슬픔', '당황', '당황1', '당황2', '당황3', '부끄러움'];
+            const characterNames = ['기본', '웃음', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
             let currentIndex = 0;
             
             // 캐릭터 변경 함수
