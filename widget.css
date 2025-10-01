@@ -1,4 +1,3 @@
-/* 캐릭터 스탯 위젯 CSS v1.0 */
 /* Copyright (c) 2025 Device. All rights reserved. */
 
 @import url('https://use.typekit.net/wpt3hjn.css');
@@ -10,7 +9,7 @@
         }
 
         .char-stat-widget {
-            font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif !important;
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'ë§‘ì€ ê³ ë”•', sans-serif !important;
             color: #fff !important;
             height: 100vh !important;
             position: relative !important;
@@ -28,7 +27,7 @@
             padding: 20px !important;
         }
 
-        /* 캐릭터 정보 패널 */
+        /* ìºë¦­í„° ì •ë³´ íŒ¨ë„ */
         .char-stat-widget .character-info {
             position: absolute !important;
             top: clamp(20px, 5vh, 50px) !important;
@@ -100,7 +99,7 @@
             transform: translateY(0) !important;
         }
 
-        /* 애니메이션 키프레임 */
+        /* ì• ë‹ˆë©”ì´ì…˜ í‚¤í”„ë ˆìž„ */
         @keyframes letterFadeIn {
             0% {
                 opacity: 0;
@@ -156,7 +155,7 @@
             z-index: 10 !important;
         }
 
-        /* 공통 배경 이미지 스타일 */
+        /* ê³µí†µ ë°°ê²½ ì´ë¯¸ì§€ ìŠ¤íƒ€ì¼ */
         .char-stat-widget .bg-image {
             background-size: contain !important;
             background-repeat: no-repeat !important;
@@ -196,11 +195,11 @@
             opacity: 0.7 !important;
         }
 
-        /* 아이콘 패널 */
+        /* ì•„ì´ì½˜ íŒ¨ë„ */
         .char-stat-widget .icon-panel {
             position: absolute !important;
             top: clamp(20px, 5vh, 50px) !important;
-            right: clamp(5px, 2vw, 15px) !important;  /* 오른쪽 가장자리에 더 가깝게 */
+            right: clamp(5px, 2vw, 15px) !important;  /* ì˜¤ë¥¸ìª½ ê°€ìž¥ìžë¦¬ì— ë” ê°€ê¹ê²Œ */
             display: flex !important;
             flex-direction: column !important;
             gap: clamp(8px, 1.5vh, 15px) !important;
@@ -209,7 +208,7 @@
 
         .char-stat-widget .icon-item {
             position: relative !important;
-            width: clamp(25px, 4vw, 35px) !important;  /* 30px-45px에서 25px-35px로 축소 */
+            width: clamp(25px, 4vw, 35px) !important;  /* 30px-45pxì—ì„œ 25px-35pxë¡œ ì¶•ì†Œ */
             height: clamp(25px, 4vw, 35px) !important;
             cursor: pointer !important;
             border-radius: 8px !important;
@@ -230,7 +229,7 @@
             box-shadow: 0 0 15px rgba(234, 118, 203, 0.5) !important;
         }
 
-        /* 개별 아이콘 배경 이미지 */
+        /* ê°œë³„ ì•„ì´ì½˜ ë°°ê²½ ì´ë¯¸ì§€ */
         .char-stat-widget .icon-purity {
             background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Purity.png') !important;
         }
@@ -263,19 +262,19 @@
             background-image: url('https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/Deviancy.png') !important;
         }
 
-        /* 아이콘 스탯 패널 */
+        /* ì•„ì´ì½˜ ìŠ¤íƒ¯ íŒ¨ë„ */
         .char-stat-widget .icon-stat-panel {
             position: absolute !important;
-            right: calc(100% + 6px) !important;  /* 12px에서 6px로 간격 감소 */
+            right: calc(100% + 6px) !important;  /* 12pxì—ì„œ 6pxë¡œ ê°„ê²© ê°ì†Œ */
             top: 50% !important;
-            transform: translateY(-50%) translateX(8px) !important;  /* 10px에서 8px로 감소 */
+            transform: translateY(-50%) translateX(8px) !important;  /* 10pxì—ì„œ 8pxë¡œ ê°ì†Œ */
             opacity: 0 !important;
             visibility: hidden !important;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
             z-index: 40 !important;
             display: flex !important;
             align-items: center !important;
-            gap: clamp(6px, 1.2vw, 10px) !important;  /* 8px-12px에서 6px-10px로 감소 */
+            gap: clamp(6px, 1.2vw, 10px) !important;  /* 8px-12pxì—ì„œ 6px-10pxë¡œ ê°ì†Œ */
             white-space: nowrap !important;
         }
 
@@ -295,10 +294,10 @@
             text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
         }
 
-        /* 세그먼트 게이지 바 */
+        /* ì„¸ê·¸ë¨¼íŠ¸ ê²Œì´ì§€ ë°” */
         .char-stat-widget .segment-gauge-container {
-            width: clamp(180px, 30vw, 280px) !important;  /* 원래 크기로 복원 */
-            height: clamp(16px, 2.5vh, 20px) !important;  /* 원래 크기로 복원 */
+            width: clamp(180px, 30vw, 280px) !important;  /* ì›ëž˜ í¬ê¸°ë¡œ ë³µì› */
+            height: clamp(16px, 2.5vh, 20px) !important;  /* ì›ëž˜ í¬ê¸°ë¡œ ë³µì› */
             position: relative !important;
             background: rgba(255, 255, 255, 0) !important;
             display: block !important;
@@ -381,7 +380,7 @@
             text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff !important;
         }
 
-        /* 캐릭터 몸체 부위 마커 */
+        /* ìºë¦­í„° ëª¸ì²´ ë¶€ìœ„ ë§ˆì»¤ */
         .char-stat-widget .body-part {
             position: absolute !important;
             width: clamp(10px, 2.5vw, 16px) !important;
@@ -408,7 +407,7 @@
             opacity: 1 !important;
         }
 
-        /* 부위별 위치 - 퍼센트 기반으로 더 정확하게 조정 */
+        /* ë¶€ìœ„ë³„ ìœ„ì¹˜ - í¼ì„¼íŠ¸ ê¸°ë°˜ìœ¼ë¡œ ë” ì •í™•í•˜ê²Œ ì¡°ì • */
         .char-stat-widget .seduction-marker { top: 2.5% !important; left: 50% !important; }
         .char-stat-widget .chest-marker { top: 21% !important; left: 49% !important; }
         .char-stat-widget .buttocks-marker { top: 42% !important; left: 60.5% !important; }
@@ -419,7 +418,7 @@
         .char-stat-widget .anal-marker { top: 41% !important; left: 50% !important; }
         .char-stat-widget .feet-marker { top: 96% !important; left: 49.3% !important; }
 
-        /* 스탯 텍스트 컨테이너 */
+        /* ìŠ¤íƒ¯ í…ìŠ¤íŠ¸ ì»¨í…Œì´ë„ˆ */
         .char-stat-widget .stat-text-container {
             position: absolute !important;
             opacity: 0 !important;
@@ -463,7 +462,7 @@
             opacity: 1 !important;
         }
 
-        /* 연결선 */
+        /* ì—°ê²°ì„  */
         .char-stat-widget .connection-line {
             position: absolute !important;
             opacity: 0 !important;
@@ -510,7 +509,7 @@
             opacity: 1 !important;
         }
 
-        /* 캐릭터 설명 패널 */
+        /* ìºë¦­í„° ì„¤ëª… íŒ¨ë„ */
         .char-stat-widget .character-description {
             position: absolute !important;
             bottom: clamp(20px, 5vh, 50px) !important;
@@ -522,7 +521,7 @@
             user-select: none !important;
         }
 
-        /* 워터마크 스타일 */
+        /* ì›Œí„°ë§ˆí¬ ìŠ¤íƒ€ì¼ */
         .char-stat-widget .watermark {
             position: absolute !important;
             bottom: 10px !important;
@@ -572,7 +571,7 @@
             transform: translateY(0) !important;
         }
 
-        /* 각 줄마다 다른 딜레이 */
+        /* ê° ì¤„ë§ˆë‹¤ ë‹¤ë¥¸ ë”œë ˆì´ */
         .char-stat-widget .description-line:nth-child(1) {
             transition-delay: 1.2s !important;
         }
@@ -589,7 +588,7 @@
             transition-delay: 2.0s !important;
         }
 
-        /* 설명 텍스트 줄별 애니메이션 */
+        /* ì„¤ëª… í…ìŠ¤íŠ¸ ì¤„ë³„ ì• ë‹ˆë©”ì´ì…˜ */
         @keyframes lineSlideUp {
             0% {
                 opacity: 0;
@@ -601,7 +600,7 @@
             }
         }
 
-        /* 설명 텍스트 애니메이션 */
+        /* ì„¤ëª… í…ìŠ¤íŠ¸ ì• ë‹ˆë©”ì´ì…˜ */
         @keyframes descriptionFadeIn {
             0% {
                 opacity: 0;
@@ -613,7 +612,7 @@
             }
         }
 
-        /* 부가 스탯 패널 */
+        /* ë¶€ê°€ ìŠ¤íƒ¯ íŒ¨ë„ */
         .char-stat-widget .sub-stats-panel {
             position: absolute !important;
             bottom: 20px !important;
@@ -636,7 +635,7 @@
             border-radius: 0 8px 0 0 !important;
             padding: 20px !important;
             width: 320px !important;
-            overflow: visible !important;  /* 스크롤바 제거 */
+            overflow: visible !important;  /* ìŠ¤í¬ë¡¤ë°” ì œê±° */
         }
 
         .char-stat-widget .sub-stats-pages {
@@ -647,7 +646,7 @@
             display: block !important;
         }
         
-        /* LI 페이지는 active 클래스와 상관없이 기본적으로 숨김 */
+        /* LI íŽ˜ì´ì§€ëŠ” active í´ëž˜ìŠ¤ì™€ ìƒê´€ì—†ì´ ê¸°ë³¸ì ìœ¼ë¡œ ìˆ¨ê¹€ */
         .char-stat-widget #page-li {
             display: none !important;
         }
@@ -785,7 +784,7 @@
             text-align: center !important;
         }
 
-        /* 등급별 색상 */
+        /* ë“±ê¸‰ë³„ ìƒ‰ìƒ */
         .char-stat-widget .sub-stat-grade.grade-f {
             color: #e10583 !important;
         }
@@ -810,7 +809,7 @@
             color: #2eb216 !important;
         }
 
-        /* A* 등급 (학업용) */
+        /* A* ë“±ê¸‰ (í•™ì—…ìš©) */
         .char-stat-widget .sub-stat-grade.grade-astar {
             color: #2eb216 !important;
         }
@@ -833,15 +832,15 @@
             height: 100% !important;
             background: linear-gradient(90deg, #8a1def, #ea76cb) !important;
             border-radius: 2px !important;
-            transition: none !important;  /* 기본적으로 트랜지션 없음 */
+            transition: none !important;  /* ê¸°ë³¸ì ìœ¼ë¡œ íŠ¸ëžœì§€ì…˜ ì—†ìŒ */
         }
         
-        /* 애니메이션이 필요할 때만 트랜지션 적용 */
+        /* ì• ë‹ˆë©”ì´ì…˜ì´ í•„ìš”í•  ë•Œë§Œ íŠ¸ëžœì§€ì…˜ ì ìš© */
         .char-stat-widget .sub-stat-fill.animating {
             transition: width 0.6s ease !important;
         }
 
-        /* NPC 호감도 아이템 */
+        /* NPC í˜¸ê°ë„ ì•„ì´í…œ */
         .char-stat-widget .npc-item {
             padding: 15px 0 !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -915,7 +914,7 @@
             color: #fff !important;
         }
 
-        /* 캐릭터별 관계 설명 텍스트 색상 */
+        /* ìºë¦­í„°ë³„ ê´€ê³„ ì„¤ëª… í…ìŠ¤íŠ¸ ìƒ‰ìƒ */
         .char-stat-widget .npc-sentence[data-character="robin"] {
             color: #29c1c0 !important;
         }
@@ -933,7 +932,7 @@
         }
 
         .char-stat-widget .npc-sentence[data-character="eden"] {
-            color: #cccccc !important;  /* 흰색에서 밝은 회색으로 변경 */
+            color: #cccccc !important;  /* í°ìƒ‰ì—ì„œ ë°ì€ íšŒìƒ‰ìœ¼ë¡œ ë³€ê²½ */
             font-weight: 300 !important;
             font-family: inherit !important;
         }
@@ -946,16 +945,16 @@
             color: #3ead13 !important;
         }
 
-        /* 스탠드 패널 - 왼쪽 패널과 동일한 스타일 */
+        /* ìŠ¤íƒ ë“œ íŒ¨ë„ - ì™¼ìª½ íŒ¨ë„ê³¼ ë™ì¼í•œ ìŠ¤íƒ€ì¼ */
         .char-stat-widget .stand-panel {
             position: absolute !important;
             bottom: 20px !important;
             right: 0 !important;
             top: auto !important;
-            z-index: 35 !important;  /* 아이콘 패널(30)보다 위로 설정 */
+            z-index: 35 !important;  /* ì•„ì´ì½˜ íŒ¨ë„(30)ë³´ë‹¤ ìœ„ë¡œ ì„¤ì • */
             display: flex !important;
             align-items: flex-end !important;
-            transform: translateX(270px) !important;  /* 콘텐츠 너비와 동일하게 설정 */
+            transform: translateX(270px) !important;  /* ì½˜í…ì¸  ë„ˆë¹„ì™€ ë™ì¼í•˜ê²Œ ì„¤ì • */
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         }
 
@@ -963,7 +962,7 @@
             transform: translateX(0) !important;
         }
 
-        /* 스탠드 토글 버튼 - Stats 버튼과 동일한 스타일 */
+        /* ìŠ¤íƒ ë“œ í† ê¸€ ë²„íŠ¼ - Stats ë²„íŠ¼ê³¼ ë™ì¼í•œ ìŠ¤íƒ€ì¼ */
         .char-stat-widget .stand-toggle {
             background: rgba(20, 20, 20, 0.9) !important;
             color: #fff !important;
@@ -991,11 +990,11 @@
         }
 
         .char-stat-widget .stand-toggle.active {
-            background: rgba(234, 118, 203, 0.6) !important; /* 분홍색으로 변경 */
+            background: rgba(234, 118, 203, 0.6) !important; /* ë¶„í™ìƒ‰ìœ¼ë¡œ ë³€ê²½ */
             border-color: transparent !important;
         }
 
-        /* 스탠드 콘텐츠 컨테이너 */
+        /* ìŠ¤íƒ ë“œ ì½˜í…ì¸  ì»¨í…Œì´ë„ˆ */
         .char-stat-widget .stand-content {
             background: rgba(20, 20, 20, 0.95) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -1004,10 +1003,10 @@
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
-            width: 270px !important;  /* 명시적 너비 설정 */
+            width: 270px !important;  /* ëª…ì‹œì  ë„ˆë¹„ ì„¤ì • */
         }
 
-        /* 스탠드 위젯 스타일 */
+        /* ìŠ¤íƒ ë“œ ìœ„ì ¯ ìŠ¤íƒ€ì¼ */
         .char-stat-widget .stand-widget {
             position: relative !important;
             display: inline-block !important;
@@ -1082,7 +1081,7 @@
             100% { transform: translateY(-50%) translateX(0); }
         }
 
-        /* 캐릭터 이름 표시 */
+        /* ìºë¦­í„° ì´ë¦„ í‘œì‹œ */
         .char-stat-widget .stand-info {
             margin-top: 10px !important;
             text-align: center !important;
@@ -1097,7 +1096,7 @@
             font-family: "freight-big-pro", serif !important;
         }
 
-        /* 다크모드 대응 추가 */
+        /* ë‹¤í¬ëª¨ë“œ ëŒ€ì‘ ì¶”ê°€ */
         @media (prefers-color-scheme: dark) {
             .char-stat-widget .name-rest {
                 color: #fff !important;
@@ -1113,7 +1112,7 @@
             }
         }
         
-        /* 티스토리 다크모드 변수 대응 */
+        /* í‹°ìŠ¤í† ë¦¬ ë‹¤í¬ëª¨ë“œ ë³€ìˆ˜ ëŒ€ì‘ */
         [data-theme="dark"] .char-stat-widget .name-rest,
         .darkmode .char-stat-widget .name-rest,
         .dark-mode .char-stat-widget .name-rest {
@@ -1131,7 +1130,7 @@
                          1px 1px 2px rgba(0, 0, 0, 0.4) !important;
         }
 
-        /* 반응형 브레이크포인트 */
+        /* ë°˜ì‘í˜• ë¸Œë ˆì´í¬í¬ì¸íŠ¸ */
         @media (min-width: 1920px) {
             .char-stat-widget .description-line {
                 font-size: 20px !important;
@@ -1166,12 +1165,12 @@
 
             .char-stat-widget .icon-panel {
                 top: clamp(15px, 3vh, 30px) !important;
-                right: clamp(3px, 1.5vw, 10px) !important;  /* 태블릿에서 오른쪽 가장자리에 더 가깝게 */
+                right: clamp(3px, 1.5vw, 10px) !important;  /* íƒœë¸”ë¦¿ì—ì„œ ì˜¤ë¥¸ìª½ ê°€ìž¥ìžë¦¬ì— ë” ê°€ê¹ê²Œ */
                 gap: clamp(6px, 1vh, 10px) !important;
             }
 
             .char-stat-widget .icon-item {
-                width: clamp(18px, 3vw, 26px) !important;  /* 22px-32px에서 18px-26px로 더 축소 */
+                width: clamp(18px, 3vw, 26px) !important;  /* 22px-32pxì—ì„œ 18px-26pxë¡œ ë” ì¶•ì†Œ */
                 height: clamp(18px, 3vw, 26px) !important;
             }
 
@@ -1194,7 +1193,7 @@
                 font-size: clamp(14px, 2.8vw, 20px) !important;
             }
             
-            /* 스탠드 패널 태블릿 반응형 */
+            /* ìŠ¤íƒ ë“œ íŒ¨ë„ íƒœë¸”ë¦¿ ë°˜ì‘í˜• */
             .char-stat-widget .stand-panel {
                 transform: translateX(220px) !important;
             }
@@ -1214,7 +1213,7 @@
                 font-size: 14px !important;
             }
 
-            /* NPC 호감도 태블릿 스타일 */
+            /* NPC í˜¸ê°ë„ íƒœë¸”ë¦¿ ìŠ¤íƒ€ì¼ */
             .char-stat-widget .npc-item {
                 padding: 12px 0 !important;
             }
@@ -1253,7 +1252,7 @@
 
             .char-stat-widget .icon-panel {
                 top: clamp(10px, 2vh, 20px) !important;
-                right: clamp(2px, 1vw, 8px) !important;  /* 모바일에서 오른쪽 가장자리에 매우 가깝게 */
+                right: clamp(2px, 1vw, 8px) !important;  /* ëª¨ë°”ì¼ì—ì„œ ì˜¤ë¥¸ìª½ ê°€ìž¥ìžë¦¬ì— ë§¤ìš° ê°€ê¹ê²Œ */
             }
 
             .char-stat-widget .icon-item {
@@ -1285,7 +1284,7 @@
                 font-size: clamp(10px, 2.5vw, 18px) !important;
             }
 
-            /* 작은 모바일에서 부가 스탯 패널 추가 조정 */
+            /* ìž‘ì€ ëª¨ë°”ì¼ì—ì„œ ë¶€ê°€ ìŠ¤íƒ¯ íŒ¨ë„ ì¶”ê°€ ì¡°ì • */
             .char-stat-widget .sub-stats-panel {
                 transform: translateX(-220px) !important;
                 bottom: 10px !important;
@@ -1298,8 +1297,8 @@
             .char-stat-widget .sub-stats-content {
                 width: 220px !important;
                 padding: 12px !important;
-                overflow: visible !important;  /* 스크롤바 완전 제거 */
-                /* max-height 제거하여 모든 콘텐츠 표시 */
+                overflow: visible !important;  /* ìŠ¤í¬ë¡¤ë°” ì™„ì „ ì œê±° */
+                /* max-height ì œê±°í•˜ì—¬ ëª¨ë“  ì½˜í…ì¸  í‘œì‹œ */
             }
 
             .char-stat-widget .sub-stat-item {
@@ -1325,9 +1324,9 @@
                 padding: 8px 3px !important;
             }
             
-            /* NPC 호감도 모바일 스타일 - 간격 줄이기 */
+            /* NPC í˜¸ê°ë„ ëª¨ë°”ì¼ ìŠ¤íƒ€ì¼ - ê°„ê²© ì¤„ì´ê¸° */
             .char-stat-widget .npc-item {
-                padding: 6px 0 !important;  /* 8px에서 6px로 줄임 */
+                padding: 6px 0 !important;  /* 8pxì—ì„œ 6pxë¡œ ì¤„ìž„ */
                 margin-bottom: 8px !important;
             }
             
@@ -1336,33 +1335,33 @@
             }
             
             .char-stat-widget .npc-header {
-                margin-bottom: 4px !important;  /* 8px에서 4px로 줄임 */
+                margin-bottom: 4px !important;  /* 8pxì—ì„œ 4pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-name-container {
-                gap: 3px !important;  /* 4px에서 3px로 줄임 */
+                gap: 3px !important;  /* 4pxì—ì„œ 3pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-name {
-                font-size: 12px !important;  /* 13px에서 12px로 줄임 */
+                font-size: 12px !important;  /* 13pxì—ì„œ 12pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-gender {
-                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
+                font-size: 10px !important;  /* 11pxì—ì„œ 10pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-title {
-                font-size: 9px !important;  /* 10px에서 9px로 줄임 */
+                font-size: 9px !important;  /* 10pxì—ì„œ 9pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-status {
-                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
-                padding: 2px 5px !important;  /* 2px 6px에서 2px 5px로 줄임 */
+                font-size: 10px !important;  /* 11pxì—ì„œ 10pxë¡œ ì¤„ìž„ */
+                padding: 2px 5px !important;  /* 2px 6pxì—ì„œ 2px 5pxë¡œ ì¤„ìž„ */
             }
             
             .char-stat-widget .npc-description {
-                font-size: 10px !important;  /* 11px에서 10px로 줄임 */
-                line-height: 1.2 !important;  /* 1.3에서 1.2로 줄임 */
+                font-size: 10px !important;  /* 11pxì—ì„œ 10pxë¡œ ì¤„ìž„ */
+                line-height: 1.2 !important;  /* 1.3ì—ì„œ 1.2ë¡œ ì¤„ìž„ */
             }
 
             .char-stat-widget .page-navigation {
@@ -1393,7 +1392,7 @@
                 font-size: 11px !important;
             }
             
-            /* 스탠드 패널 모바일 반응형 */
+            /* ìŠ¤íƒ ë“œ íŒ¨ë„ ëª¨ë°”ì¼ ë°˜ì‘í˜• */
             .char-stat-widget .stand-panel {
                 transform: translateX(180px) !important;
                 bottom: 10px !important;
