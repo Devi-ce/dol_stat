@@ -1027,6 +1027,7 @@
             display: block !important;
             height: 350px !important;
             width: auto !important;
+            object-fit: contain !important; 
         }
 
         .char-stat-widget .stand-widget #background-layer {
