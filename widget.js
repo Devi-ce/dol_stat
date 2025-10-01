@@ -398,14 +398,14 @@
             
             // 캐릭터 데이터
             const characterImages = [
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/기본.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/기쁨.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/슬픔.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황1.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황2.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황3.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/당황4.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/main/부끄러움.gif'
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/default.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/smile.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/sad.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/oops1.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/oops2.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/oops3.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/oops4.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/main/shy.gif'
             ];
                 
             const characterNames = ['기본', '기쁨', '슬픔', '당황1', '당황2', '당황3', '당황4', '부끄러움'];
