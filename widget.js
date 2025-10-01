@@ -400,7 +400,7 @@
             const characterImages = [
                 'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EA%B8%B0%EB%B3%B8.gif',
                 'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%9B%83%EC%9D%8C.gif',
-                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%8A%AC%ED%94%BC.gif',
+                'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EC%8A%AC%ED%94%94.gif',
                 'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A9.gif',
                 'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A91.gif',
                 'https://raw.githubusercontent.com/Devi-ce/tistory/refs/heads/main/%EB%8B%B9%ED%99%A92.gif',
@@ -700,7 +700,7 @@
             const markerCenterY = markerRect.top + markerRect.height / 2 - containerRect.top;
             
             const statType = marker.dataset.stat;
-            const statData = this.getStatData(statType);
+            const statData = this.getStatData(statType, marker);  // marker를 매개변수로 전달
             
             const isLeftSide = ['anal', 'thighs', 'hands'].includes(statType);
             const direction = isLeftSide ? -1 : 1;
@@ -778,19 +778,24 @@
             });
         },
 
-        getStatData: function(statType) {
-            const statDataMap = {
-                'seduction': [{ name: '유혹', grade: 'B', percentage: 85 }],
-                'chest': [{ name: '가슴', grade: 'A', percentage: 72 }],
-                'buttocks': [{ name: '엉덩이', grade: 'F', percentage: 18 }],
-                'vaginal': [{ name: '질', grade: 'None', percentage: '' }],
-                'thighs': [{ name: '허벅지', grade: 'F', percentage: 12 }],
-                'oral': [{ name: '입', grade: 'S', percentage: 79 }],
-                'hands': [{ name: '손', grade: 'A', percentage: 94 }],
-                'anal': [{ name: '애널', grade: 'None', percentage: '' }],
-                'feet': [{ name: '발', grade: 'F', percentage: 36 }]
-            };
-            return statDataMap[statType] || [];
+        // HTML의 data-stat-info 속성에서 스탯 데이터를 읽어오는 함수
+        getStatData: function(statType, marker) {
+            // 마커 엘리먼트가 없으면 statType으로 찾기
+            if (!marker) {
+                marker = document.querySelector(`.char-stat-widget .body-part[data-stat="${statType}"]`);
+            }
+            
+            // HTML의 data-stat-info 속성에서 JSON 데이터 읽기
+            if (marker && marker.dataset.statInfo) {
+                try {
+                    return JSON.parse(marker.dataset.statInfo);
+                } catch (e) {
+                    console.error('Failed to parse stat data for', statType, e);
+                }
+            }
+            
+            // 기본값 반환 (데이터가 없는 경우)
+            return [];
         },
 
         bindEvents: function() {
