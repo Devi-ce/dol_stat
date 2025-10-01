@@ -780,7 +780,7 @@
 
         getStatData: function(statType) {
             const statDataMap = {
-                'seduction': [{ name: '유혹', grade: 'S', percentage: 85 }],
+                'seduction': [{ name: '유혹', grade: 'B', percentage: 85 }],
                 'chest': [{ name: '가슴', grade: 'A', percentage: 72 }],
                 'buttocks': [{ name: '엉덩이', grade: 'F', percentage: 18 }],
                 'vaginal': [{ name: '질', grade: 'None', percentage: '' }],
